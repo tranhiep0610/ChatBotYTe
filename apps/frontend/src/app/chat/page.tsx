@@ -494,7 +494,7 @@ function ChatPageContent() {
         onClose={() => setIsConfirmDialogOpen(false)}
         recordData={{
           record_code: `BA-${sessionId.slice(0, 8).toUpperCase()}`,
-          patient_name: user?.full_name || 'Nguyễn Bá Duy',
+          patient_name: user?.full_name || 'Nguyễn Trần Hiệp',
           age: 28,
           gender: 'Nam',
           icd_code: telemetry?.top_predictions?.[0]?.icd_code || 'J02.9',

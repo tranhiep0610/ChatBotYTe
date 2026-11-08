@@ -402,7 +402,7 @@ export default function LandingPage() {
           {/* Copyright */}
           <div className="flex flex-wrap items-center justify-between text-xs text-slate-500 pt-4">
             <span>© 2026 MediBot AI - Multimodal Medical Assistant. All rights reserved.</span>
-            <span>Bản quyền phát triển: Nguyễn Bá Duy & Nhóm Nghiên Cứu Y Tế Thông Minh</span>
+            <span>Bản quyền phát triển: Nguyễn Trần Hiệp & Nhóm Nghiên Cứu Y Tế Thông Minh</span>
           </div>
         </div>
       </footer>

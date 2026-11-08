@@ -308,7 +308,7 @@ export function UserDropdown() {
                       : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                   }`}
                 >
-                  👤 Nguyễn Bá Duy
+                  👤 Nguyễn Trần Hiệp
                 </button>
                 <button
                   type="button"

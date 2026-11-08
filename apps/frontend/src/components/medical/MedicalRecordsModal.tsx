@@ -43,7 +43,7 @@ export function MedicalRecordsModal({
 
   // Manual Form State
   const [formData, setFormData] = useState({
-    patient_name: user?.full_name || 'Nguyễn Bá Duy',
+    patient_name: user?.full_name || 'Nguyễn Trần Hiệp',
     age: 28,
     gender: 'Nam',
     admission_date: new Date().toISOString().slice(0, 10),
@@ -75,7 +75,7 @@ export function MedicalRecordsModal({
             id: 'rec-01',
             record_code: 'BA-20260906-001',
             user_id: user?.id || 'user-duy-02',
-            patient_name: user?.full_name || 'Nguyễn Bá Duy',
+            patient_name: user?.full_name || 'Nguyễn Trần Hiệp',
             age: 28,
             gender: 'Nam',
             admission_date: '2026-09-06 09:30',
@@ -93,7 +93,7 @@ export function MedicalRecordsModal({
             id: 'rec-02',
             record_code: 'BA-20260901-084',
             user_id: user?.id || 'user-duy-02',
-            patient_name: user?.full_name || 'Nguyễn Bá Duy',
+            patient_name: user?.full_name || 'Nguyễn Trần Hiệp',
             age: 28,
             gender: 'Nam',
             admission_date: '2026-09-01 14:15',

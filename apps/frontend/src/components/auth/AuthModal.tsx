@@ -243,7 +243,7 @@ export function AuthModal() {
                     <User className="w-3.5 h-3.5" />
                   </div>
                   <span className="font-bold text-xs text-slate-800 group-hover:text-blue-700 truncate">
-                    Nguyễn Bá Duy
+                    Nguyễn Trần Hiệp
                   </span>
                 </div>
                 <span className="text-[11px] text-slate-500 truncate w-full">0988 123 456 · Bệnh nhân</span>

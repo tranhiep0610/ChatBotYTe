@@ -43,7 +43,7 @@ export function SaveRecordConfirmDialog({
       const payload: Partial<MedicalRecord> = {
         record_code: recordData.record_code || `BA-${Date.now().toString().slice(-6)}`,
         user_id: user?.id || 'user-duy-02',
-        patient_name: recordData.patient_name || user?.full_name || 'Nguyễn Bá Duy',
+        patient_name: recordData.patient_name || user?.full_name || 'Nguyễn Trần Hiệp',
         age: recordData.age || 28,
         gender: recordData.gender || 'Nam',
         admission_date: recordData.admission_date || new Date().toISOString().replace('T', ' ').slice(0, 16),
@@ -165,7 +165,7 @@ export function SaveRecordConfirmDialog({
                 <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
                   <div className="flex items-center gap-2 text-slate-800 font-bold text-sm">
                     <User className="w-4 h-4 text-slate-500" />
-                    <span>{recordData.patient_name || user?.full_name || 'Nguyễn Bá Duy'}</span>
+                    <span>{recordData.patient_name || user?.full_name || 'Nguyễn Trần Hiệp'}</span>
                     <span className="text-xs font-normal text-slate-500">
                       ({recordData.age || 28} tuổi • {recordData.gender || 'Nam'})
                     </span>

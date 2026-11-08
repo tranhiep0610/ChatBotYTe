@@ -22,7 +22,7 @@ interface AuthContextType {
 const DEFAULT_USER: AuthUser = {
   id: 'user-duy-02',
   email: 'nguyenbaduy@medibot.vn',
-  full_name: 'Nguyễn Bá Duy',
+  full_name: 'Nguyễn Trần Hiệp',
   role: 'user',
   phone: '0988 123 456',
   date_of_birth: '1998-05-15',

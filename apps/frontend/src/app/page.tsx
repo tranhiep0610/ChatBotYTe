@@ -28,7 +28,7 @@ export default function DashboardOverviewPage() {
             Xin chào trở lại
           </p>
           <h1 className="text-3xl md:text-4xl lg:text-[40px] font-extrabold tracking-tight flex items-center gap-2.5">
-            <span>Nguyễn Bá Duy</span>
+            <span>Nguyễn Trần Hiệp</span>
             <span className="inline-block animate-wave text-3xl md:text-4xl">👋</span>
           </h1>
           <p className="text-sm md:text-base text-blue-100/95 max-w-xl font-normal leading-relaxed">

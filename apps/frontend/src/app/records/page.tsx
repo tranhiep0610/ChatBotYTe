@@ -34,7 +34,7 @@ export default function RecordsPage() {
 
   // Form State
   const [formData, setFormData] = useState({
-    patient_name: user?.full_name || 'Nguyễn Bá Duy',
+    patient_name: user?.full_name || 'Nguyễn Trần Hiệp',
     age: 28,
     gender: 'Nam',
     admission_date: '',
@@ -65,7 +65,7 @@ export default function RecordsPage() {
             id: 'rec-01',
             record_code: 'BA-20260906-001',
             user_id: user?.id || 'user-duy-02',
-            patient_name: user?.full_name || 'Nguyễn Bá Duy',
+            patient_name: user?.full_name || 'Nguyễn Trần Hiệp',
             age: 28,
             gender: 'Nam',
             admission_date: '2026-09-06 09:30',
@@ -83,7 +83,7 @@ export default function RecordsPage() {
             id: 'rec-02',
             record_code: 'BA-20260901-084',
             user_id: user?.id || 'user-duy-02',
-            patient_name: user?.full_name || 'Nguyễn Bá Duy',
+            patient_name: user?.full_name || 'Nguyễn Trần Hiệp',
             age: 28,
             gender: 'Nam',
             admission_date: '2026-09-01 14:15',
@@ -274,7 +274,7 @@ export default function RecordsPage() {
           <div>
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Bệnh Nhân Hiện Tại</span>
             <div className="text-xl font-black text-slate-800 mt-1 truncate max-w-[180px]">
-              {user?.full_name || 'Nguyễn Bá Duy'}
+              {user?.full_name || 'Nguyễn Trần Hiệp'}
             </div>
             <span className="text-[11px] text-slate-400 font-mono mt-0.5 block">
               {user?.email || 'nguyenbaduy@medibot.vn'}
