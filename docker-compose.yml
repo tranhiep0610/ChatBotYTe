@@ -41,6 +41,7 @@ services:
       - redis
     volumes:
       - ./data:/data
+      - ./apps/ai_engine/src:/app/src
 
   frontend:
     build:
