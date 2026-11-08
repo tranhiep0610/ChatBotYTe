@@ -1,0 +1,346 @@
+% ============================================================
+%  CAPSTONE PROJECT ACTION PLAN — Samsung Innovation Campus
+%  Ngôn ngữ: Tiếng Việt | Compiler: XeLaTeX + fontspec
+% ============================================================
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+\usepackage[margin=1.8cm,bottom=2.0cm,top=1.8cm]{geometry}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{booktabs}
+
+% Màu sắc Samsung Innovation Campus
+\definecolor{samsungblue}{RGB}{12, 77, 162}
+\definecolor{samsungteal}{RGB}{0, 156, 166}
+\definecolor{bordergray}{RGB}{170, 170, 170}
+\definecolor{textgray}{RGB}{85, 85, 85}
+\definecolor{lightblue}{RGB}{235, 242, 255}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+% Logo Samsung màu xanh
+\newcommand{\SamsungLogo}{%
+  \begin{tikzpicture}[baseline=-0.4ex]
+    \node[font=\fontsize{14}{14}\selectfont\bfseries\sffamily,
+          text=samsungblue, inner sep=0pt, outer sep=0pt, xscale=1.12] {SAMSUNG};
+  \end{tikzpicture}%
+}
+
+% Chân trang Samsung
+\newcommand{\SamsungFooter}{%
+  \begin{center}
+    \vspace*{0.15cm}
+    {\fontsize{7.5}{9}\selectfont\color{samsungteal}\textbf{Together for Tomorrow!}}\\[1.5pt]
+    {\fontsize{10}{11}\selectfont\color{samsungblue}\textbf{Enabling People}}\\[1.5pt]
+    {\fontsize{5.5}{7}\selectfont\color{textgray}Education for Future Generations}
+  \end{center}%
+}
+
+% Hộp tiêu đề section (có dòng kẻ xanh trái)
+\newcommand{\SectionBox}[1]{%
+  \noindent
+  \begin{tikzpicture}
+    \node[fill=lightblue, draw=samsungblue, line width=0.6pt,
+          inner sep=5pt, text width=\dimexpr\linewidth-10pt\relax,
+          align=left, font=\bfseries\color{samsungblue}] {#1};
+  \end{tikzpicture}\par\vspace{0.1cm}%
+}
+
+\begin{document}
+
+% =========================================================
+% TRANG 1 — BÌA
+% =========================================================
+\begin{flushleft}
+  \SamsungLogo
+\end{flushleft}
+
+\vspace{3.5cm}
+
+\begin{flushleft}
+  {\fontsize{20}{24}\selectfont\textbf{\sffamily AI Course}}\\[0.8cm]
+  {\fontsize{34}{40}\selectfont\textbf{\sffamily\color{samsungblue}Capstone Project}}\\[0.3cm]
+  {\fontsize{34}{40}\selectfont\textbf{\sffamily\color{samsungblue}Action Plan}}\\[1.8cm]
+  {\fontsize{12}{15}\selectfont\textbf{\sffamily Dành cho học viên (yêu cầu xem xét của giảng viên)}}
+\end{flushleft}
+
+\vfill
+
+\begin{flushleft}
+  {\fontsize{6.5}{8}\selectfont\color{textgray}
+    \textcopyright{} 2023 SAMSUNG. All rights reserved.\\[1pt]
+    Samsung Electronics Corporate Citizenship Office holds the copyright of this document.\\[1pt]
+    This document is a literary property protected by copyright law so reprint and reproduction without permission are prohibited.\\[1pt]
+    To use this document other than the curriculum of Samsung Innovation Campus, you must receive written consent from copyright holder.
+  }
+\end{flushleft}
+
+\vspace{0.4cm}
+\SamsungFooter
+
+\newpage
+
+% =========================================================
+% TRANG 2 — TỔNG QUAN DỰ ÁN: MỤC TIÊU, TÓM TẮT, PHƯƠNG PHÁP
+% =========================================================
+\begin{flushleft}\SamsungLogo\end{flushleft}
+\vspace{0.2cm}
+
+% --- Bảng thông tin nhóm ---
+\noindent
+\begin{tikzpicture}
+\node[draw=bordergray, line width=0.8pt, inner sep=0pt, outer sep=0pt]{
+  \begin{minipage}{0.999\textwidth}
+    \begin{tabularx}{\textwidth}{|>{\bfseries\color{samsungblue}}p{3.5cm}|X|}
+      \hline
+      Khóa học & \textbf{\large AI Course} \\ \hline
+      Tên nhóm & SIC-UTT Medical AI Innovators \\ \hline
+      Trưởng nhóm / Thành viên &
+        \textbf{Nguyễn Bá Duy} (Trưởng nhóm) \newline
+        Trương Tuấn Vũ \quad Nguyễn Trần Hiệp \quad Đặng Thị Thúy Linh \\ \hline
+      Tên dự án &
+        \textbf{Trợ lý Y tế AI Đa Phương Thức: Phân tầng Lâm sàng Thời gian Thực và Hệ thống Chẩn đoán Tự động Kết quả Xét nghiệm} \\ \hline
+    \end{tabularx}
+  \end{minipage}
+};
+\end{tikzpicture}
+
+\vspace{-0.1cm}
+
+% --- Goal ---
+\noindent
+\begin{tikzpicture}
+\node[draw=bordergray, line width=0.8pt, inner sep=0pt, outer sep=0pt]{
+  \begin{minipage}{0.999\textwidth}
+    \begin{tabular}{|p{3.5cm}|}
+      \hline \textbf{\color{samsungblue}Mục tiêu (Goal)} \\ \hline
+    \end{tabular}\\[-0.5pt]
+    \vspace{0.12cm}
+    \begin{minipage}{0.96\textwidth}\small
+      \begin{itemize}\itemsep2pt\parskip0pt\parsep0pt
+        \item Xây dựng hệ thống Trợ lý Y tế AI Đa Phương Thức cấp doanh nghiệp (\textbf{Multimodal Medical AI Chatbot}) tích hợp đồng thời giọng nói, văn bản triệu chứng và hình ảnh phiếu xét nghiệm, hỗ trợ sàng lọc sơ bộ, định hướng chuyên khoa và phân tầng nguy cơ tức thì cho bệnh nhân Việt Nam.
+        \item Tích hợp ba luồng nhập liệu: (1) Chuyển đổi giọng nói tiếng Việt thành văn bản bằng Faster-Whisper STT, (2) Bóc tách tự động 9 chỉ số sinh hóa máu CBC từ ảnh/PDF xét nghiệm qua OCR và kiểm tra ngưỡng an toàn sinh lý, (3) Nhận diện thực thể y tế bằng PhoBERT Token Classification với nhãn BIO tiếng Việt.
+        \item Triển khai mô hình phân loại lai \textbf{Hybrid Late Fusion} $P_{\text{final}} = \alpha P_{\text{tabular}} + (1{-}\alpha) P_{\text{text}}$ ($\alpha{=}0.65$ khi có xét nghiệm, $\alpha{=}0$ khi chỉ có văn bản), kết hợp cơ chế Cảnh báo Báo Động Đỏ trong ${\le}0.5$s và Vòng hội thoại làm rõ Entropy giải quyết mơ hồ chẩn đoán khi $P_{\max} < 0.70$.
+      \end{itemize}
+    \end{minipage}
+    \vspace{0.2cm}
+  \end{minipage}
+};
+\end{tikzpicture}
+
+\vspace{-0.1cm}
+
+% --- Abstract ---
+\noindent
+\begin{tikzpicture}
+\node[draw=bordergray, line width=0.8pt, inner sep=0pt, outer sep=0pt]{
+  \begin{minipage}{0.999\textwidth}
+    \begin{tabular}{|p{3.5cm}|}
+      \hline \textbf{\color{samsungblue}Tóm tắt (Abstract)} \\ \hline
+    \end{tabular}\\[-0.5pt]
+    \vspace{0.12cm}
+    \begin{minipage}{0.96\textwidth}\small
+      Áp lực quá tải tại các cơ sở y tế tuyến trên và nguy cơ chậm trễ nhận diện dấu hiệu cấp cứu nguy hiểm là thách thức lớn tại Việt Nam. Nhóm phát triển hệ thống \textbf{Multimodal Medical AI Chatbot} với kiến trúc monorepo doanh nghiệp hoàn chỉnh:
+      \begin{itemize}\itemsep1.5pt\parskip0pt\parsep0pt
+        \item \textbf{Đa phương thức}: Thu nhận giọng nói tiếng Việt qua micro (Faster-Whisper, WER $\approx$ 8.4\%), bóc tách chỉ số sinh hóa máu từ ảnh chụp/PDF xét nghiệm (OCR độ chính xác $\geq$93.2\%), và xử lý văn bản triệu chứng tự do.
+        \item \textbf{AI cốt lõi}: Fine-tune \texttt{vinai/phobert-base-v2} cho NER y tế tiếng Việt (13 nhãn BIO); huấn luyện \texttt{XGBoost} phân loại 211 nhóm bệnh từ 9 chỉ số sinh hóa + vector nhị phân triệu chứng; kết hợp Late Fusion đạt $F_1 > 93\%$; cơ chế Entropy Clarification giúp hệ thống chủ động hỏi làm rõ khi $P_{\max}<0.70$.
+        \item \textbf{Nền tảng sản phẩm}: Backend FastAPI async + Redis cache + MongoDB; Frontend Next.js 14 với WebSocket streaming kiểu typewriter, bảng điều khiển lâm sàng động; tri thức y tế RAG trên Qdrant Vector DB ($\approx$ ICD-10 + phác đồ Bộ Y tế) với embedding \texttt{BAAI/bge-m3}.
+      \end{itemize}
+    \end{minipage}
+    \vspace{0.2cm}
+  \end{minipage}
+};
+\end{tikzpicture}
+
+\vspace{-0.1cm}
+
+% --- Method ---
+\noindent
+\begin{tikzpicture}
+\node[draw=bordergray, line width=0.8pt, inner sep=0pt, outer sep=0pt]{
+  \begin{minipage}{0.999\textwidth}
+    \begin{tabular}{|p{3.5cm}|}
+      \hline \textbf{\color{samsungblue}Phương pháp (Method)} \\ \hline
+    \end{tabular}\\[-0.5pt]
+    \vspace{0.12cm}
+    \begin{minipage}{0.96\textwidth}\small
+      \begin{enumerate}\itemsep1.5pt\parskip0pt\parsep0pt
+        \item \textbf{Thu thập và tiền xử lý đa luồng}: Faster-Whisper với VAD phát hiện im lặng xử lý giọng nói tiếng Việt; Tesseract/EasyOCR bóc tách phiếu CBC (WBC, RBC, HGB, HCT, AST, ALT, GLUCOSE, CREATININE, PLT) kết hợp Regex pattern + từ điển y khoa kiểm tra ngưỡng sinh lý an toàn (Sanity Range Check).
+        \item \textbf{Medical NER \& Phát hiện Red Flag}: PhoBERT Token Classification với 13 nhãn BIO (\texttt{B/I-SYMPTOM}, \texttt{B/I-DISEASE}, \texttt{B/I-BODY\_PART}, \texttt{B/I-SEVERITY}, \texttt{B/I-MEDICATION}, \texttt{B/I-VITAL\_SIGN}); cơ chế phát hiện phủ định ngữ cảnh (Negation Detection) và kiểm tra Red Flag song song với truy vấn từ điển cấp cứu trong $\leq 0.5$s.
+        \item \textbf{Hybrid Late Fusion động}: Nhánh Tabular (XGBoost 211 lớp bệnh, $\alpha = 0.65$) kết hợp nhánh NLP (TF-IDF + Logistic Regression, trọng số $1-\alpha$); Entropy Clarification tính câu hỏi tối ưu hóa thông tin nhất khi độ tin cậy thấp.
+        \item \textbf{RAG tri thức y tế}: Nhúng toàn bộ danh mục ICD-10 + phác đồ điều trị Bộ Y tế bằng \texttt{BAAI/bge-m3} vào Qdrant Vector DB; sinh phản hồi an toàn y tế bằng truy xuất ngữ nghĩa Top-K kết hợp Gemini Pro.
+      \end{enumerate}
+    \end{minipage}
+    \vspace{0.2cm}
+  \end{minipage}
+};
+\end{tikzpicture}
+
+\vfill\SamsungFooter\newpage
+
+% =========================================================
+% TRANG 3 — DỮ LIỆU, KẾT QUẢ KỲ VỌNG, PHÂN CÔNG VAI TRÒ
+% =========================================================
+\begin{flushleft}\SamsungLogo\end{flushleft}
+\vspace{0.2cm}
+
+% --- Data ---
+\noindent
+\begin{tikzpicture}
+\node[draw=bordergray, line width=0.8pt, inner sep=0pt, outer sep=0pt]{
+  \begin{minipage}{0.999\textwidth}
+    \begin{tabular}{|p{3.5cm}|}
+      \hline \textbf{\color{samsungblue}Dữ liệu (Data)} \\ \hline
+    \end{tabular}\\[-0.5pt]
+    \vspace{0.12cm}
+    \begin{minipage}{0.96\textwidth}\small
+      \begin{itemize}\itemsep2pt\parskip0pt\parsep0pt
+        \item \textbf{Dữ liệu văn bản hội thoại y tế}: \texttt{ViMedical\_Disease} và \texttt{medical-vietnamese-qa} — tổng cộng hơn 15.000 mẫu câu hỏi-đáp bệnh nhân, được gán nhãn BIO thủ công cho các thực thể triệu chứng (\texttt{B/I-SYMPTOM}), bệnh lý (\texttt{B/I-DISEASE}), bộ phận cơ thể, mức độ và thuốc điều trị.
+        \item \textbf{Dữ liệu sinh hóa máu CBC (Tabular)}: Bộ dữ liệu tổng hợp chuẩn hóa (Synthetic Clinical Tabular Dataset) gồm 9 chỉ số sinh hóa cốt lõi — WBC, RBC, HGB, HCT, AST, ALT, GLUCOSE, CREATININE, PLT — ánh xạ đến 211 nhóm bệnh theo mã ICD-10, đặc biệt 13 nhóm bệnh phổ biến: Sốt xuất huyết Dengue (A90), Nhồi máu cơ tim cấp (I21.9), Đột quỵ não (I64), Viêm phổi cấp (J18.9), Đái tháo đường týp 2 (E11.9), Viêm gan virus mạn (B18.2), Viêm dạ dày tá tràng (K29.7), Hen phế quản (J45.9), Viêm ruột thừa (K35.8), Sỏi thận (N20.0).
+        \item \textbf{Tri thức y tế chuẩn}: Toàn văn ICD-10 tiếng Việt (211 mã chính + 2.000+ mã chi tiết); danh mục dấu hiệu cấp cứu Red Flags (đau ngực lan vai trái, khó thở đột ngột, liệt nửa người, PLT $< 50 \times 10^9$/L, ...); 50 kịch bản lâm sàng nghiệm thu do chuyên gia y tế thẩm định.
+      \end{itemize}
+    \end{minipage}
+    \vspace{0.2cm}
+  \end{minipage}
+};
+\end{tikzpicture}
+
+\vspace{-0.1cm}
+
+% --- Expected Outcome ---
+\noindent
+\begin{tikzpicture}
+\node[draw=bordergray, line width=0.8pt, inner sep=0pt, outer sep=0pt]{
+  \begin{minipage}{0.999\textwidth}
+    \begin{tabular}{|p{4.5cm}|}
+      \hline \textbf{\color{samsungblue}Kết quả kỳ vọng (Expected Outcome)} \\ \hline
+    \end{tabular}\\[-0.5pt]
+    \vspace{0.12cm}
+    \begin{minipage}{0.96\textwidth}\small
+      \begin{itemize}\itemsep2pt\parskip0pt\parsep0pt
+        \item \textbf{Chỉ tiêu định lượng kỹ thuật}:
+        \begin{itemize}\itemsep1pt\parskip0pt\parsep0pt
+          \item PhoBERT Medical NER đạt Macro $F_1 \geq 88.5\%$ trên tập kiểm thử 1.500 câu.
+          \item XGBoost Tabular Classifier đạt $F_1 \geq 91.8\%$; Hybrid Late Fusion Ensemble đạt $F_1 \geq 93.1\%$.
+          \item OCR bóc tách chỉ số sinh hóa máu đạt độ chính xác $\geq 93.2\%$.
+          \item Thời gian phát hiện Báo Động Đỏ: $\leq 0.5$s; độ bao phủ triệu chứng cấp cứu $= 100\%$.
+          \item Latency end-to-end (bao gồm RAG): trung bình $< 1.2$s.
+        \end{itemize}
+        \item \textbf{Sản phẩm hoàn chỉnh}: Hệ thống Full-stack đóng gói Docker-compose (FastAPI + Next.js 14 + Qdrant + MongoDB + Redis), triển khai một lệnh \texttt{docker compose up}, có tài liệu Swagger API và bộ kiểm thử tự động 50 ca lâm sàng.
+        \item \textbf{Giá trị xã hội}: Hỗ trợ bệnh nhân tự đánh giá sức khỏe sơ bộ, cảnh báo tức thì cơn nguy cấp (nhồi máu cơ tim, đột quỵ, sốc sốt xuất huyết) với nút gọi 115; giảm tải áp lực phòng cấp cứu.
+      \end{itemize}
+    \end{minipage}
+    \vspace{0.2cm}
+  \end{minipage}
+};
+\end{tikzpicture}
+
+\vspace{-0.1cm}
+
+% --- Role by Member ---
+\noindent
+\begin{tikzpicture}
+\node[draw=bordergray, line width=0.8pt, inner sep=0pt, outer sep=0pt]{
+  \begin{minipage}{0.999\textwidth}
+    \begin{tabular}{|p{4.5cm}|}
+      \hline \textbf{\color{samsungblue}Phân công vai trò (Role by Member)} \\ \hline
+    \end{tabular}\\[-0.5pt]
+    \vspace{0.12cm}
+    \begin{minipage}{0.96\textwidth}\small
+      \begin{tabularx}{\textwidth}{@{}p{3.5cm}X@{}}
+        \textbf{Nguyễn Bá Duy} \newline (Trưởng nhóm — Kiến trúc AI) &
+          Thiết kế kiến trúc monorepo và pipeline đa phương thức \texttt{MultimodalTriagePipeline}; fine-tune PhoBERT Medical NER 13 nhãn BIO; phát triển thuật toán Hybrid Late Fusion động và cơ chế Entropy Clarification; tối ưu hóa backend FastAPI async. \\
+        \textbf{Trương Tuấn Vũ} \newline (Kỹ sư Học máy) &
+          Xây dựng và tối ưu hóa mô hình \texttt{TabularClinicalClassifier} (XGBoost 211 lớp bệnh, GPU CUDA); thiết kế vector đặc trưng 23 chiều (9 sinh hóa máu + 14 binary triệu chứng); phát triển module \texttt{SigmoidalEvidenceModel} cho chẩn đoán khi thiếu dữ liệu lab. \\
+        \textbf{Nguyễn Trần Hiệp} \newline (Kỹ sư STT/OCR) &
+          Tích hợp Faster-Whisper STT tiếng Việt (VAD, WER 8.4\%); phát triển \texttt{PDFLabParser} và \texttt{ImageLabOCR} bóc tách chỉ số sinh hóa + Sanity Range Validation từ ảnh chụp phiếu xét nghiệm; viết Colab Notebook 01 và 03. \\
+        \textbf{Đặng Thị Thúy Linh} \newline (Fullstack \& DevOps) &
+          Xây dựng giao diện Next.js 14 / Tailwind CSS với WebSocket streaming typewriter; thiết kế bảng điều khiển lâm sàng động (Side Dashboard) và hệ thống RAG Qdrant + \texttt{BAAI/bge-m3}; thiết lập Docker-compose, CI/CD GitHub Actions và bộ 50 kịch bản nghiệm thu. \\
+      \end{tabularx}
+    \end{minipage}
+    \vspace{0.2cm}
+  \end{minipage}
+};
+\end{tikzpicture}
+
+\vfill\SamsungFooter\newpage
+
+% =========================================================
+% TRANG 4 — LỊCH TRÌNH VÀ NHẬN XÉT GIẢNG VIÊN
+% =========================================================
+\begin{flushleft}\SamsungLogo\end{flushleft}
+\vspace{0.2cm}
+
+\noindent
+\begin{tikzpicture}
+\node[draw=bordergray, line width=0.8pt, inner sep=0pt, outer sep=0pt]{
+  \begin{minipage}{0.999\textwidth}
+    \begin{tabular}{|p{4.5cm}|}
+      \hline \textbf{\color{samsungblue}Lịch trình tóm tắt (Schedule Summary)} \\ \hline
+    \end{tabular}\\[-0.5pt]
+    \vspace{0.12cm}
+    \begin{minipage}{0.96\textwidth}\small
+      \begin{tabularx}{\textwidth}{|c|p{3.8cm}|X|c|}
+        \hline
+        \textbf{Tuần} & \textbf{Nội dung công việc} & \textbf{Chi tiết triển khai và Mốc quan trọng} & \textbf{Phụ trách} \\ \hline
+        Tuần 1 & Khảo sát \& Kiến trúc hệ thống & Nghiên cứu tổng quan, phân tích yêu cầu, thiết kế WBS, thiết lập Monorepo Docker và cấu trúc thư mục & Cả nhóm \\ \hline
+        Tuần 2 & Thu thập \& Tiền xử lý dữ liệu & Chuẩn hóa ViMedical NER, sinh dữ liệu CBC Tabular 211 lớp bệnh, xây dựng từ điển ICD-10 và Red Flags & Hiệp, Vũ \\ \hline
+        Tuần 3 & Huấn luyện AI cốt lõi (Colab 1, 2) & Fine-tune PhoBERT NER 13 nhãn BIO; XGBoost 211 lớp GPU; NLP TF-IDF Classifier & Duy, Vũ \\ \hline
+        Tuần 4 & Đa phương thức \& RAG (Colab 3, 4, 5) & Faster-Whisper STT + VAD; OCR phiếu xét nghiệm + Sanity Check; nhúng Qdrant bge-m3 & Hiệp, Linh \\ \hline
+        Tuần 5 & Hybrid Fusion \& Clarification & Triển khai Late Fusion động ($\alpha$ thích nghi); Red Flag ${\leq}0.5$s; Entropy Clarification Loop & Duy, Vũ \\ \hline
+        Tuần 6 & Backend FastAPI \& Frontend UI & FastAPI WebSocket streaming async; Next.js 14 Dashboard; MongoDB + Redis cache & Duy, Linh \\ \hline
+        Tuần 7 & Kiểm thử toàn diện & Chạy 50 kịch bản lâm sàng, đo latency end-to-end, kiểm thử unit và integration test & Cả nhóm \\ \hline
+        Tuần 8 & Báo cáo \& Nghiệm thu & Hoàn thiện tài liệu kỹ thuật, Swagger API, slide thuyết trình, đóng gói Docker bàn giao & Cả nhóm \\ \hline
+      \end{tabularx}
+    \end{minipage}
+    \vspace{0.2cm}
+  \end{minipage}
+};
+\end{tikzpicture}
+
+\vspace{0.3cm}
+
+\noindent
+\begin{tikzpicture}
+\node[draw=bordergray, line width=0.8pt, inner sep=0pt, outer sep=0pt]{
+  \begin{minipage}{0.999\textwidth}
+    \begin{tabular}{|p{5.5cm}|}
+      \hline \textbf{\color{samsungblue}Nhận xét và Đánh giá (Comment \& Assessment)} \\ \hline
+    \end{tabular}\\[-0.5pt]
+    \vspace{0.15cm}
+    \begin{minipage}{0.96\textwidth}\small
+      \textbf{Nhận xét của Giảng viên hướng dẫn:}
+      \vspace{0.15cm}
+
+      \dotfill\vspace{0.22cm}
+
+      \dotfill\vspace{0.22cm}
+
+      \dotfill\vspace{0.22cm}
+
+      \dotfill\vspace{0.22cm}
+
+      \dotfill\vspace{0.22cm}
+
+      \dotfill\vspace{0.35cm}
+
+      \begin{flushright}
+        \textbf{Chữ ký Giảng viên hướng dẫn:}\hspace{3cm}\\[1.5cm]
+        \textbf{Ngày đánh giá:}\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots
+      \end{flushright}
+    \end{minipage}
+    \vspace{0.25cm}
+  \end{minipage}
+};
+\end{tikzpicture}
+
+\vfill\SamsungFooter
+
+\end{document}

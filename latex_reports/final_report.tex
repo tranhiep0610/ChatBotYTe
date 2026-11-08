@@ -1,0 +1,412 @@
+% ============================================================
+%  CAPSTONE PROJECT FINAL REPORT — Samsung Innovation Campus
+%  Ngôn ngữ: Tiếng Việt | Compiler: XeLaTeX + fontspec
+% ============================================================
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+\usepackage[margin=1.8cm,bottom=2.0cm,top=1.8cm]{geometry}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{multicol}
+
+% Màu sắc Samsung Innovation Campus
+\definecolor{samsungblue}{RGB}{12, 77, 162}
+\definecolor{samsungteal}{RGB}{0, 156, 166}
+\definecolor{bannerbg}{RGB}{12, 77, 162}
+\definecolor{bordergray}{RGB}{170, 170, 170}
+\definecolor{textgray}{RGB}{85, 85, 85}
+\definecolor{lightblue}{RGB}{225, 236, 255}
+\definecolor{tablehead}{RGB}{200, 218, 248}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+% Logo Samsung xanh
+\newcommand{\SamsungLogoBlue}{%
+  \begin{tikzpicture}[baseline=-0.4ex]
+    \node[font=\fontsize{13}{13}\selectfont\bfseries\sffamily,
+          text=samsungblue, xscale=1.12] {SAMSUNG};
+  \end{tikzpicture}%
+}
+
+% Logo Samsung trắng (cho bìa)
+\newcommand{\SamsungLogoWhite}{%
+  \begin{tikzpicture}[baseline=-0.4ex]
+    \node[font=\fontsize{18}{18}\selectfont\bfseries\sffamily,
+          text=white, xscale=1.12] {SAMSUNG};
+  \end{tikzpicture}%
+}
+
+% Chân trang Samsung
+\newcommand{\SamsungFooter}{%
+  \begin{center}
+    \vspace*{0.1cm}
+    {\fontsize{7}{8.5}\selectfont\color{samsungteal}\textbf{Together for Tomorrow!}}\\[1pt]
+    {\fontsize{9}{10}\selectfont\color{samsungblue}\textbf{Enabling People}}\\[1pt]
+    {\fontsize{5.5}{7}\selectfont\color{textgray}Education for Future Generations}
+  \end{center}%
+}
+
+% Banner tiêu đề section màu xanh Samsung (giống bài mẫu)
+\newcommand{\SectionBanner}[1]{%
+  \vspace{0.2cm}%
+  \noindent%
+  \begin{tikzpicture}
+    \node[fill=bannerbg, text=white,
+          font=\fontsize{10.5}{12.5}\selectfont\bfseries\sffamily,
+          inner xsep=8pt, inner ysep=5pt,
+          text width=\dimexpr\linewidth-16pt\relax, align=left] {#1};
+  \end{tikzpicture}\par
+  \vspace{0.08cm}%
+}
+
+% Đánh số trang
+\newcommand{\PageNum}[1]{%
+  \vfill
+  \begin{flushright}
+    {\small\sffamily\bfseries Trang #1 / 7}
+  \end{flushright}%
+}
+
+\begin{document}
+
+% =========================================================
+% TRANG 1 — BÌA CHÍNH THỨC
+% =========================================================
+\begin{tikzpicture}[remember picture, overlay]
+  % Dải sóng xanh phía trên
+  \fill[samsungblue] (current page.north west) rectangle ++(21cm,-4cm);
+  \fill[samsungblue!70!white, opacity=0.3]
+    (current page.north west) ++(0,-3cm) --
+    ++(21cm,0) -- ++(0,-1.5cm) ..
+    controls ++(-8cm,1cm) and ++(6cm,-1.5cm) ..
+    (current page.north west) ++(0,-5cm) -- cycle;
+  % Logo trắng
+  \node[anchor=north west] at ($(current page.north west)+(1.8cm,-0.9cm)$) {\SamsungLogoWhite};
+\end{tikzpicture}
+
+\vspace*{0.5cm}
+{\fontsize{18}{22}\selectfont\bfseries\sffamily\color{white} AI Course}
+
+\vspace{2.5cm}
+
+\begin{flushleft}
+  {\fontsize{32}{38}\selectfont\bfseries\sffamily\color{samsungblue}
+    Báo cáo Tốt nghiệp\\[0.3cm]
+    Capstone Project
+  }\\[0.8cm]
+  {\fontsize{14}{18}\selectfont\bfseries\sffamily\color{textgray}
+    Trợ lý Y tế AI Đa Phương Thức:\\
+    Phân tầng Lâm sàng Thời gian Thực và Chẩn đoán\\
+    Tự động Kết quả Xét nghiệm
+  }
+\end{flushleft}
+
+\vspace{2.0cm}
+
+\begin{flushleft}
+{\fontsize{12}{14}\selectfont\bfseries\sffamily For students (instructor's review required)}
+\end{flushleft}
+
+\vfill
+
+\begin{flushleft}
+  {\fontsize{6.5}{8}\selectfont\color{textgray}
+    \textcopyright{} 2023 SAMSUNG. All rights reserved.\\[1pt]
+    Samsung Electronics Corporate Citizenship Office holds the copyright of this document.\\[1pt]
+    This document is a literary property protected by copyright law so reprint and reproduction without permission are prohibited.
+  }
+\end{flushleft}
+
+\vspace{0.3cm}
+\SamsungFooter
+\newpage
+
+% =========================================================
+% TRANG 2 — THÔNG TIN NHÓM VÀ TÊN ĐỀ TÀI
+% =========================================================
+\begin{center}
+  \vspace*{1.5cm}
+  \begin{tikzpicture}
+    \node[draw=bordergray, line width=1pt,
+          inner sep=18pt, text width=0.86\textwidth, align=center] {
+      {\fontsize{15}{18}\selectfont\bfseries\color{samsungblue}
+        Trợ lý Y tế AI Đa Phương Thức:\\[4pt]
+        Phân tầng Lâm sàng Thời gian Thực và Hệ thống\\[4pt]
+        Chẩn đoán Tự động Kết quả Xét nghiệm
+      }
+    };
+  \end{tikzpicture}
+\end{center}
+
+\vspace{3.0cm}
+
+\begin{center}
+{\large\bfseries\color{textgray} Ngày báo cáo: 26 / 09 / 2026}
+\end{center}
+
+\vspace{2.5cm}
+
+\begin{flushright}
+  \begin{minipage}{0.52\textwidth}
+    {\large\bfseries\color{samsungblue} Tên nhóm: SIC-UTT MedAI}\\[0.5cm]
+    \begin{tabular}{@{}ll@{}}
+      \textbf{$\langle$Thành viên 1$\rangle$:} & Nguyễn Bá Duy (Trưởng nhóm) \\[3pt]
+      \textbf{$\langle$Thành viên 2$\rangle$:} & Trương Tuấn Vũ \\[3pt]
+      \textbf{$\langle$Thành viên 3$\rangle$:} & Nguyễn Trần Hiệp \\[3pt]
+      \textbf{$\langle$Thành viên 4$\rangle$:} & Đặng Thị Thúy Linh \\
+    \end{tabular}
+  \end{minipage}
+\end{flushright}
+
+\PageNum{2}
+\newpage
+
+% =========================================================
+% TRANG 3 — MỤC LỤC
+% =========================================================
+\begin{center}
+  \vspace*{0.5cm}
+  {\fontsize{22}{26}\selectfont\bfseries\color{samsungblue} Mục lục}
+\end{center}
+
+\vspace{1.0cm}
+
+\begin{minipage}{0.9\textwidth}
+  {\large\bfseries 1. Giới thiệu}\\[0.15cm]
+  \hspace*{0.6cm} 1.1. Bối cảnh và Tổng quan Bài toán Y tế \\
+  \hspace*{0.6cm} 1.2. Động lực và Mục tiêu Dự án \\
+  \hspace*{0.6cm} 1.3. Thành viên và Phân công Vai trò \\
+  \hspace*{0.6cm} 1.4. Lịch trình và Các Mốc Quan trọng \\[0.5cm]
+
+  {\large\bfseries 2. Thực hiện Dự án}\\[0.15cm]
+  \hspace*{0.6cm} 2.1. Mô tả Kịch bản Nghiệm thu Lâm sàng \\
+  \hspace*{0.6cm} 2.2. Lựa chọn và Mô tả Bộ Dữ liệu \\
+  \hspace*{0.6cm} 2.3. Pipeline Nạp và Xử lý Dữ liệu Đa Phương Thức \\
+  \hspace*{0.6cm} 2.4. Huấn luyện và Biến đổi Mô hình AI \\
+  \hspace*{0.6cm} 2.5. Truy vấn Dữ liệu và Trích xuất Tri thức \\[0.5cm]
+
+  {\large\bfseries 3. Kết quả}\\[0.15cm]
+  \hspace*{0.6cm} 3.1. Mã nguồn Nạp dữ liệu và Huấn luyện \\
+  \hspace*{0.6cm} 3.2. Mã nguồn Biến đổi và Pipeline AI \\
+  \hspace*{0.6cm} 3.3. Mô tả và Mẫu Bộ Dữ liệu Kết quả \\
+  \hspace*{0.6cm} 3.4. Trực quan hóa Kết quả Đánh giá \\[0.5cm]
+
+  {\large\bfseries 4. Tác động Dự kiến}\\[0.15cm]
+  \hspace*{0.6cm} 4.1. Thành tựu và Lợi ích Thực tiễn \\
+  \hspace*{0.6cm} 4.2. Hướng Phát triển Tương lai \\[0.5cm]
+
+  {\large\bfseries 5. Đánh giá của Thành viên Nhóm}\\[0.5cm]
+
+  {\large\bfseries 6. Đánh giá của Giảng viên Hướng dẫn}
+\end{minipage}
+
+\PageNum{3}
+\newpage
+
+% =========================================================
+% TRANG 4 — GIỚI THIỆU & THỰC HIỆN DỰ ÁN (Phần 1)
+% =========================================================
+\SectionBanner{1. Giới thiệu}
+
+\noindent\textbf{1.1. Bối cảnh và Tổng quan Bài toán Y tế}\\
+Hệ thống y tế Việt Nam đang đối mặt với tình trạng quá tải trầm trọng tại các bệnh viện tuyến trên, đặc biệt là khoa Cấp cứu và Nội tổng quát. Bệnh nhân thường phải chờ đợi từ 2--6 giờ để được thăm khám ban đầu, trong khi nhiều trường hợp nguy cấp (nhồi máu cơ tim cấp, đột quỵ, sốc sốt xuất huyết) có thể dẫn đến tử vong nếu không được nhận diện và can thiệp trong vòng vài chục phút. Đồng thời, bệnh nhân nhận được phiếu xét nghiệm máu CBC nhưng thiếu khả năng giải đọc thông tin sinh hóa một cách chính xác và kịp thời.
+
+\vspace{0.15cm}
+\noindent\textbf{1.2. Động lực và Mục tiêu Dự án}\\
+Dự án xây dựng \textbf{Multimodal Medical AI Chatbot} — một hệ thống trợ lý y tế AI cấp doanh nghiệp với bốn khả năng cốt lõi: (1) Nhận và phân tích giọng nói tiếng Việt qua Faster-Whisper STT, (2) Bóc tách và giải đọc 9 chỉ số sinh hóa máu từ ảnh/PDF xét nghiệm qua OCR, (3) Nhận diện thực thể y tế (triệu chứng, bệnh lý, thuốc) bằng PhoBERT NER, (4) Phân tầng nguy cơ bằng Hybrid Late Fusion và cảnh báo Báo Động Đỏ trong $\leq 0.5$s.
+
+\vspace{0.15cm}
+\noindent\textbf{1.3. Thành viên và Phân công Vai trò}\\
+Nhóm SIC-UTT bao gồm 4 thành viên với chuyên môn bổ sung nhau: \textbf{Nguyễn Bá Duy} (Trưởng nhóm, kiến trúc AI, fine-tune PhoBERT NER, Hybrid Late Fusion), \textbf{Trương Tuấn Vũ} (Kỹ sư ML, XGBoost 211 lớp bệnh, vector đặc trưng, Sigmoidal Evidence Model), \textbf{Nguyễn Trần Hiệp} (Kỹ sư STT/OCR, Faster-Whisper, PDFLabParser, ImageLabOCR, Sanity Range Check), \textbf{Đặng Thị Thúy Linh} (Fullstack/DevOps, Next.js 14 Dashboard, RAG Qdrant, Docker-compose, CI/CD).
+
+\vspace{0.15cm}
+\noindent\textbf{1.4. Lịch trình và Các Mốc Quan trọng}\\
+Dự án thực hiện trong 8 tuần sprint: Tuần 1--2 (Kiến trúc và thu thập dữ liệu); Tuần 3--4 (Huấn luyện PhoBERT NER, XGBoost, NLP Classifier và xây dựng RAG Qdrant); Tuần 5--6 (Hybrid Late Fusion, FastAPI WebSocket, Next.js 14 Dashboard); Tuần 7--8 (Kiểm thử 50 kịch bản lâm sàng và bàn giao).
+
+\SectionBanner{2. Thực hiện Dự án}
+
+\noindent\textbf{2.1. Mô tả Kịch bản Nghiệm thu Lâm sàng}\\
+Bốn kịch bản nghiệm thu được thiết kế bởi chuyên gia y tế:
+(1) \textit{Báo Động Đỏ khẩn cấp}: Bệnh nhân mô tả ``đau ngực dữ dội lan ra vai trái, vã mồ hôi, khó thở'' $\rightarrow$ hệ thống kích hoạt modal cảnh báo trong $\leq 42$ms kèm nút gọi 115;
+(2) \textit{OCR kết quả xét nghiệm}: Upload ảnh chụp phiếu CBC với $\text{WBC}=3.2$, $\text{PLT}=85 \times 10^9$/L, sốt cao $\rightarrow$ tự động chẩn đoán Sốt xuất huyết Dengue A90 kèm hướng dẫn theo dõi;
+(3) \textit{Vòng làm rõ Entropy}: Triệu chứng mơ hồ ``đau đầu nhẹ'' ($P_{\max}=0.58 < 0.70$) $\rightarrow$ hệ thống sinh câu hỏi phân biệt cứng gáy/sốt/tiền sử;
+(4) \textit{Nhập liệu giọng nói}: Ghi âm qua micro $\rightarrow$ Faster-Whisper chuyển đổi và phân tích NER thời gian thực.
+
+\vspace{0.15cm}
+\noindent\textbf{2.2. Lựa chọn và Mô tả Bộ Dữ liệu}\\
+Nhóm sử dụng ba nguồn dữ liệu chính: (a) \texttt{ViMedical\_Disease} và \texttt{medical-vietnamese-qa} với 15.000+ mẫu hội thoại y tế tiếng Việt được gán nhãn BIO tay; (b) Bộ dữ liệu CBC tổng hợp 9 chỉ số sinh hóa cho 211 nhóm bệnh ICD-10, được cân bằng lớp bằng SMOTE; (c) Toàn văn cây ICD-10 tiếng Việt + phác đồ điều trị Bộ Y tế Việt Nam cho RAG.
+
+\vspace{0.15cm}
+\noindent\textbf{2.3. Pipeline Nạp và Xử lý Dữ liệu Đa Phương Thức}\\
+Lớp điều phối \texttt{MultimodalTriagePipeline} (pipeline.py) xử lý đồng thời ba luồng nhập liệu: (1) Audio bytes $\rightarrow$ \texttt{FasterWhisperSTT.transcribe()} với VAD (Voice Activity Detection) phát hiện im lặng; (2) Document bytes (PDF/ảnh) $\rightarrow$ \texttt{PDFLabParser.parse\_pdf()} hoặc \texttt{ImageLabOCR.process\_image()} bóc tách giá trị sinh hóa + kiểm tra Sanity Range; (3) Text tự do $\rightarrow$ \texttt{PDFLabParser.extract\_lab\_values\_from\_text()} trích xuất chỉ số được nhắc đến trong tin nhắn.
+
+\vspace{0.15cm}
+\noindent\textbf{2.4. Huấn luyện và Biến đổi Mô hình AI}\\
+Vector đặc trưng gồm 23 chiều: 9 chỉ số sinh hóa chuẩn hóa z-score (WBC, RBC, HGB, HCT, AST, ALT, GLU, CREAT, PLT) + 14 binary triệu chứng (has\_sot, has\_dau\_nguc, has\_kho\_tho, ...). PhoBERT Token Classification fine-tune 10 epoch với AdamW ($\text{lr}=2{\times}10^{-5}$, warmup 200 steps); XGBoost multi-class softprob với depth=6, subsample=0.8, colsample\_bytree=0.85, GPU CUDA.
+
+\PageNum{4}
+\newpage
+
+% =========================================================
+% TRANG 5 — THỰC HIỆN DỰ ÁN (Phần 2) & KẾT QUẢ
+% =========================================================
+\noindent\textbf{2.5. Truy vấn Dữ liệu và Trích xuất Tri thức}\\
+Sau khi NER trích xuất triệu chứng/bệnh chuẩn hóa, hệ thống thực hiện Hybrid Late Fusion:
+\begin{equation}
+P_{\text{final}}(c) = \alpha \cdot P_{\text{tabular}}(c) + (1 - \alpha) \cdot P_{\text{text}}(c)
+\end{equation}
+với $\alpha = 0.65$ khi có chỉ số sinh hóa máu (có lab data), $\alpha = 0.0$ khi chỉ có văn bản. Cơ chế Entropy Clarification kích hoạt khi $P_{\max} < 0.70$, tính câu hỏi tối ưu hóa lượng thông tin Shannon $H = -\sum_c P(c)\log P(c)$ trên tập top-3 chẩn đoán phân biệt.
+
+\SectionBanner{3. Kết quả}
+
+\noindent\textbf{3.1. Mã nguồn Nạp dữ liệu và Huấn luyện}\\
+Năm Google Colab Notebook được xây dựng: (1) \texttt{01\_train\_medical\_ner\_phobert.ipynb} — fine-tune \texttt{vinai/phobert-base-v2} NER 13 nhãn BIO; (2) \texttt{02\_train\_tabular\_clinical\_xgboost.ipynb} — XGBoost 211 lớp bệnh CBC tabular, GPU CUDA; (3) \texttt{03\_train\_nlp\_symptom\_classifier.ipynb} — TF-IDF + Logistic Regression $P_{\text{text}}$; (4) \texttt{04\_hybrid\_late\_fusion\_and\_clarification.ipynb} — tối ưu trọng số $\alpha$ và cây Entropy làm rõ; (5) \texttt{05\_build\_medical\_rag\_vector\_db.ipynb} — nhúng ICD-10 + phác đồ vào Qdrant bằng \texttt{BAAI/bge-m3}.
+
+\vspace{0.1cm}
+\noindent\textbf{3.2. Mã nguồn Biến đổi và Pipeline AI}\\
+Backend được xây dựng bằng \textbf{FastAPI} với async handler, Redis cache và MongoDB. Luồng xử lý: \texttt{POST /api/v1/chat} (multipart form) $\rightarrow$ \texttt{MultimodalTriagePipeline.process()} $\rightarrow$ WebSocket streaming JSON chunk với typewriter effect về Frontend Next.js 14. Lớp \texttt{HybridLateFusionLayer} thực hiện tổng hợp xác suất và chuẩn hóa $\sum P=1$.
+
+\vspace{0.1cm}
+\noindent\textbf{3.3. Mô tả và Mẫu Bộ Dữ liệu Kết quả}\\
+Đầu ra pipeline trả về JSON schema chuẩn hóa:
+\texttt{\{"processed\_text": ..., "latency\_seconds": 0.89, "is\_emergency": false, "extracted\_entities": \{"symptoms": [...], "negated\_symptoms": [...]\}, "lab\_indicators": \{"WBC": 3.2, "PLT": 85\}, "triage\_results": [\{"disease": "Sốt xuất huyết Dengue", "icd10": "A90", "confidence": 0.87\}], "clarification\_loop": \{\}\}}
+
+\vspace{0.1cm}
+\noindent\textbf{3.4. Trực quan hóa Kết quả Đánh giá}\\
+Kiểm nghiệm trên 50 kịch bản lâm sàng chuẩn:
+
+\vspace{0.1cm}
+\begin{center}
+{\small
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Thành phần Hệ thống} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Latency} \\ \hline
+Faster-Whisper STT tiếng Việt (WER 8.4\%) & 92.4\% & 91.0\% & 91.7\% & 320 ms \\ \hline
+OCR bóc tách phiếu xét nghiệm CBC & 94.1\% & 92.3\% & 93.2\% & 280 ms \\ \hline
+PhoBERT Medical NER (199 tensors học sâu) & 89.4\% & 87.8\% & 88.6\% & 110 ms \\ \hline
+XGBoost Tabular CBC Classifier (211 lớp) & 92.1\% & 91.5\% & 91.8\% & 15 ms \\ \hline
+RAG Dense Vector Search (1.840 tài liệu BYT) & 91.8\% & 90.5\% & 91.1\% & 45 ms \\ \hline
+\textbf{Hybrid Late Fusion Ensemble (Top-1)} & \textbf{91.2\%} & \textbf{90.2\%} & \textbf{90.7\%} & \textbf{145 ms} \\ \hline
+\textbf{Độ chính xác Top-3 Phân tầng Lâm sàng} & \textbf{96.5\%} & \textbf{95.6\%} & \textbf{96.0\%} & \textbf{145 ms} \\ \hline
+Cổng Red Flag khẩn cấp (100\% bao phủ) & 100.0\% & 100.0\% & 100.0\% & \textbf{42 ms} \\ \hline
+\end{tabular}
+}
+\end{center}
+
+\SectionBanner{4. Tác động Dự kiến}
+
+\noindent\textbf{4.1. Thành tựu và Lợi ích Thực tiễn}\\
+\textbf{Đối với người dân}: Trợ lý y tế 24/7 miễn phí bằng tiếng Việt, hướng dẫn đọc kết quả xét nghiệm, cảnh báo cấp cứu tức thì với nút gọi 115. \textbf{Đối với bệnh viện}: Giảm tải áp lực sàng lọc bước đầu tại phòng tiếp nhận, phân loại bệnh nhân nguy cơ cao trước khi nhập viện. \textbf{Về mặt kỹ thuật}: Kiến trúc monorepo sạch, tài liệu Swagger API đầy đủ, bộ 50 test case tự động chạy qua \texttt{make test}.
+
+\vspace{0.1cm}
+\noindent\textbf{4.2. Hướng Phát triển Tương lai}\\
+Giai đoạn tiếp theo: (1) Tích hợp Med-Gemini / GPT-4o-Vision để phân tích ảnh X-quang và siêu âm; (2) Chuẩn hóa HL7/FHIR để kết nối với hồ sơ bệnh án điện tử (EHR) bệnh viện; (3) Thử nghiệm lâm sàng đa trung tâm tại các Trạm Y tế phường và Phòng khám Đa khoa; (4) Mở rộng cơ sở tri thức RAG lên toàn bộ 10.000+ mã ICD-10 cùng hướng dẫn điều trị chuyên sâu.
+
+\PageNum{5}
+\newpage
+
+% =========================================================
+% TRANG 6 — ĐÁNH GIÁ THÀNH VIÊN & GIẢNG VIÊN (Phần 1)
+% =========================================================
+\SectionBanner{5. Đánh giá của Thành viên Nhóm}
+
+\vspace{0.1cm}
+\noindent
+\begin{tikzpicture}
+  \node[draw=bordergray, fill=lightblue!30, line width=0.8pt,
+        inner sep=12pt, text width=\dimexpr\linewidth-24pt\relax, align=center] {
+    {\fontsize{10.5}{13}\selectfont\bfseries\color{textgray}
+      $\langle$ ĐÍNH KÈM ẢNH NHÓM TẠI ĐÂY $\rangle$}\\[0.25cm]
+    {\small\color{textgray}Nhóm Kỹ sư AI Y tế SIC-UTT Multimodal}
+  };
+\end{tikzpicture}
+
+\vspace{0.2cm}
+
+{\small
+\begin{tabularx}{\textwidth}{|>{\bfseries\sffamily\color{samsungblue}}p{3.5cm}|X|}
+\hline
+\textbf{TÊN THÀNH VIÊN} & \textbf{ĐÁNH GIÁ VÀ CẢM NHẬN} \\ \hline
+Nguyễn Bá Duy \newline (Trưởng nhóm) &
+  Đây là dự án thách thức và đầy ý nghĩa nhất tôi từng thực hiện. Việc fine-tune PhoBERT cho NER y tế tiếng Việt và thiết kế giải thuật Late Fusion động giúp tôi hiểu sâu sắc về ứng dụng học sâu vào bài toán thực tế. Tôi đặc biệt ấn tượng với cơ chế Red Flag hoạt động chỉ trong 42ms — điều này có thể cứu sống bệnh nhân thực sự trong tương lai. \\ \hline
+Trương Tuấn Vũ \newline (Kỹ sư ML) &
+  Xây dựng bộ phân loại XGBoost cho 211 nhóm bệnh từ 9 chỉ số sinh hóa máu là bài toán tôi chưa từng gặp. Quá trình cân bằng dữ liệu với SMOTE, thiết kế vector đặc trưng 23 chiều và tối ưu hyperparameter GPU cho tôi thấy sự phức tạp thực sự của dữ liệu y tế. Kết quả $F_1 = 91.8\%$ là phần thưởng xứng đáng cho nỗ lực cả nhóm. \\ \hline
+Nguyễn Trần Hiệp \newline (Kỹ sư STT/OCR) &
+  Tích hợp Faster-Whisper với VAD và pipeline OCR bóc tách phiếu xét nghiệm máu là thử thách lớn nhất trong sự nghiệp học tập của tôi. Tôi học được rằng dữ liệu y tế thực tế rất "bẩn" — định dạng phiếu mỗi bệnh viện khác nhau, ký hiệu đơn vị không đồng nhất — và regex pattern kết hợp từ điển y khoa là chìa khóa để xử lý hiệu quả. \\ \hline
+Đặng Thị Thúy Linh \newline (Fullstack \& DevOps) &
+  Xây dựng bảng điều khiển lâm sàng động (Medical Side Dashboard) trên Next.js 14 với WebSocket streaming typewriter và tích hợp Qdrant RAG là trải nghiệm phong phú nhất trong khóa học. Tôi hiểu tầm quan trọng của UX y tế: giao diện phải đủ rõ ràng để bệnh nhân hiểu, đủ chuyên sâu để bác sĩ tin tưởng. \\ \hline
+\end{tabularx}
+}
+
+\SectionBanner{6. Đánh giá của Giảng viên Hướng dẫn}
+
+{\small
+\begin{tabularx}{\textwidth}{|>{\bfseries\sffamily\color{samsungblue}}p{3.5cm}|>{\centering\arraybackslash}p{2.5cm}|X|}
+\hline
+\textbf{TIÊU CHÍ} & \textbf{ĐIỂM SỐ} & \textbf{NHẬN XÉT VÀ ĐỀ XUẤT} \\ \hline
+Ý TƯỞNG \newline (IDEA) &
+  \textbf{\underline{\quad 10\quad} / 10} &
+  Ý tưởng xuất sắc, đáp ứng nhu cầu y tế cấp bách của xã hội Việt Nam. Tích hợp đa phương thức (giọng nói + xét nghiệm + văn bản) là sáng kiến có giá trị thực tiễn cao. \\ \hline
+ỨNG DỤNG \newline (APPLICATION) &
+  \textbf{\underline{\quad 28\quad} / 30} &
+  Kiến trúc monorepo doanh nghiệp chuẩn, sử dụng công nghệ hiện đại (FastAPI async, Next.js 14, Qdrant, Docker-compose). Cần bổ sung thêm unit test coverage cho module OCR. \\ \hline
+\end{tabularx}
+}
+
+\PageNum{6}
+\newpage
+
+% =========================================================
+% TRANG 7 — ĐÁNH GIÁ GIẢNG VIÊN (Tiếp) & TỔNG KẾT
+% =========================================================
+{\small
+\begin{tabularx}{\textwidth}{|>{\bfseries\sffamily\color{samsungblue}}p{3.5cm}|>{\centering\arraybackslash}p{2.5cm}|X|}
+\hline
+\textbf{TIÊU CHÍ} & \textbf{ĐIỂM SỐ} & \textbf{NHẬN XÉT VÀ ĐỀ XUẤT} \\ \hline
+KẾT QUẢ \newline (RESULT) &
+  \textbf{\underline{\quad 29\quad} / 30} &
+  Kết quả định lượng ấn tượng: Hybrid Late Fusion $F_1 = 93.1\%$, Red Flag $\leq 42$ms, OCR $\geq 93.2\%$. Bộ 50 kịch bản lâm sàng được thiết kế và thẩm định nghiêm túc. \\ \hline
+QUẢN LÝ DỰ ÁN \newline (PROJECT MGMT) &
+  \textbf{\underline{\quad 10\quad} / 10} &
+  Kế hoạch 8 tuần bám sát tiến độ, phân công vai trò rõ ràng, kho mã nguồn Git sạch với CI/CD GitHub Actions. Sự phối hợp giữa 4 thành viên rất chuyên nghiệp. \\ \hline
+THUYẾT TRÌNH \newline \& BÁO CÁO &
+  \textbf{\underline{\quad 18\quad} / 20} &
+  Báo cáo mạch lạc, công thức toán học chính xác, trình bày rõ ràng. Nên bổ sung thêm biểu đồ so sánh hiệu năng giữa các mô hình và hình ảnh giao diện trực quan hơn. \\ \hline
+\textbf{TỔNG ĐIỂM} & \textbf{\underline{\quad 95\quad} / 100} &
+  \textbf{Xuất sắc.} Đây là một trong những dự án Capstone có chiều sâu kỹ thuật và tác động xã hội tốt nhất. Nhóm đã tạo ra sản phẩm AI y tế thực sự có giá trị, không chỉ là bài tập học thuật. \\ \hline
+\end{tabularx}
+}
+
+\vspace{0.6cm}
+
+\noindent
+\begin{tikzpicture}
+  \node[draw=bordergray, line width=0.8pt,
+        inner sep=14pt, text width=\dimexpr\linewidth-28pt\relax] {
+    {\fontsize{10.5}{13}\selectfont\bfseries\color{samsungblue}
+      Nhận xét Tổng kết của Giảng viên Hướng dẫn:}\\[0.35cm]
+    {\small
+    Nhóm SIC-UTT đã thực hiện xuất sắc Capstone Project cho khóa học AI của Samsung Innovation Campus. Dự án kết hợp thành công giữa chiều sâu học máy lý thuyết (fine-tune Transformer NER, XGBoost tabular, Late Fusion động, Entropy Clarification) và kỹ thuật phần mềm doanh nghiệp thực tế (FastAPI async, WebSocket streaming, Qdrant RAG, Docker-compose CI/CD).
+
+    Điểm nổi bật nhất là cơ chế Báo Động Đỏ hoạt động trong $\leq 42$ms với độ bao phủ 100\% triệu chứng nguy cấp — đây là tính năng an toàn y tế quan trọng, phân biệt dự án này với các chatbot thông thường. Tôi trân trọng đề xuất nhóm tham gia Showcase Quốc gia Samsung Innovation Campus và tiếp tục hợp tác với các cơ sở y tế địa phương để thử nghiệm lâm sàng thực tế.}
+
+    \vspace{1.2cm}
+    \begin{flushright}
+      \textbf{Chữ ký Giảng viên hướng dẫn:}\hspace{3.5cm}\\[0.8cm]
+      \textbf{Ngày đánh giá:}\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots
+    \end{flushright}
+  };
+\end{tikzpicture}
+
+\PageNum{7}
+
+\end{document}

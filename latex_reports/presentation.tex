@@ -1,0 +1,682 @@
+% ============================================================
+%  CAPSTONE PROJECT PRESENTATION — Samsung Innovation Campus
+%  Ngôn ngữ: Tiếng Việt | Compiler: XeLaTeX + fontspec
+%  Khổ trang 16:9 (16cm x 9cm) — 14 Slides
+%  Dữ liệu thực tế kiểm nghiệm Phase 2 Production Beta (09/2026)
+% ============================================================
+\documentclass[10pt]{article}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+\usepackage[paperwidth=16cm,paperheight=9cm,
+            top=0.38cm,bottom=0.46cm,left=0.50cm,right=0.50cm]{geometry}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{tabularx}
+\usepackage{amsmath,amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{multicol}
+
+% ---- Bảng màu Samsung Innovation Campus ----
+\definecolor{samblue}{RGB}{12, 77, 162}
+\definecolor{samdark}{RGB}{7, 42, 98}
+\definecolor{samcyan}{RGB}{0, 169, 224}
+\definecolor{samteal}{RGB}{0, 156, 166}
+\definecolor{textdark}{RGB}{25, 25, 25}
+\definecolor{textgray}{RGB}{90, 90, 90}
+\definecolor{bordergray}{RGB}{195, 195, 195}
+\definecolor{lightbg}{RGB}{240, 246, 255}
+\definecolor{goodgreen}{RGB}{34, 139, 34}
+\definecolor{warnorng}{RGB}{210, 105, 30}
+\definecolor{critred}{RGB}{185, 30, 30}
+\definecolor{yellowbg}{RGB}{255, 248, 220}
+\definecolor{greenbg}{RGB}{230, 255, 230}
+\definecolor{redbg}{RGB}{255, 235, 235}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+% ============================================================
+% MACRO: Logo
+% ============================================================
+\newcommand{\LogoBlue}{%
+  \begin{tikzpicture}[baseline=-0.4ex]
+    \node[font=\fontsize{11}{11}\selectfont\bfseries\sffamily,
+          text=samblue, xscale=1.12] {SAMSUNG};
+  \end{tikzpicture}%
+}
+\newcommand{\LogoWhite}{%
+  \begin{tikzpicture}[baseline=-0.4ex]
+    \node[font=\fontsize{15}{15}\selectfont\bfseries\sffamily,
+          text=white, xscale=1.12] {SAMSUNG};
+  \end{tikzpicture}%
+}
+
+% ============================================================
+% MACRO: Bullet cấp 1 & 2
+% ============================================================
+\newcommand{\Lone}[1]{%
+  \vspace{0.07cm}%
+  {\color{samblue}\rule[-0.12ex]{2.5pt}{0.92em}}\hspace{0.16cm}%
+  {\fontsize{8.2}{10.2}\selectfont\bfseries\sffamily\color{textdark}#1}\par
+  \vspace{0.02cm}%
+}
+\newcommand{\Ltwo}[1]{%
+  \hspace*{0.35cm}%
+  {\color{samblue}\fontsize{5.2}{5.2}\selectfont$\blacktriangleright$}\hspace{0.12cm}%
+  {\fontsize{7.2}{8.8}\selectfont\sffamily\color{textdark}#1}\par
+  \vspace{0.02cm}%
+}
+
+% Status badge inline
+\newcommand{\Good}{\textcolor{goodgreen}{\bfseries\sffamily ĐẠT}}
+\newcommand{\Warn}{\textcolor{warnorng}{\bfseries\sffamily LƯU Ý}}
+\newcommand{\Crit}{\textcolor{critred}{\bfseries\sffamily CẦN SỬA}}
+
+% ============================================================
+% MACRO: Header slide
+% ============================================================
+\newcommand{\SlideHead}[3]{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[samblue] (current page.north west)
+      -- ++(16cm,0) -- ++(0,-0.82cm)
+      .. controls ++(-7cm,0.22cm) and ++(6cm,-0.38cm) ..
+      ($(current page.north west)+(0,-1.02cm)$) -- cycle;
+    \fill[samcyan!60!samblue, opacity=0.28]
+      (current page.north west)
+      -- ++(16cm,0) -- ++(0,-0.92cm)
+      .. controls ++(-5.5cm,0.28cm) and ++(5cm,-0.44cm) ..
+      ($(current page.north west)+(0,-1.18cm)$) -- cycle;
+  \end{tikzpicture}%
+  \vspace*{-0.18cm}%
+  \begin{minipage}[t]{0.73\textwidth}
+    {\fontsize{9.5}{11.5}\selectfont\bfseries\sffamily\color{white}#1}\\[-1pt]
+    {\fontsize{6.2}{7.5}\selectfont\sffamily\color{white!80}#2}
+  \end{minipage}%
+  \hfill%
+  \begin{minipage}[t]{0.24\textwidth}
+    \begin{flushright}
+      {\fontsize{7}{8}\selectfont\bfseries\sffamily\color{white}#3}
+    \end{flushright}
+  \end{minipage}%
+  \vspace{0.22cm}%
+}
+
+% ============================================================
+% MACRO: Chân trang slide
+% ============================================================
+\newcommand{\SlideFooter}[1]{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \draw[bordergray, line width=0.3pt]
+      ($(current page.south west)+(0.5cm,0.52cm)$) --
+      ($(current page.south east)+(-0.5cm,0.52cm)$);
+    \node[anchor=west, font=\fontsize{5.2}{6}\selectfont\sffamily, text=textgray]
+      at ($(current page.south west)+(0.5cm,0.28cm)$)
+      {Samsung Innovation Campus --- Báo cáo Đánh giá Hiệu năng Hệ thống MediBot AI Phase 2};
+    \node[anchor=east, font=\fontsize{6}{6}\selectfont\bfseries\sffamily, text=textdark]
+      at ($(current page.south east)+(-0.45cm,0.28cm)$) {#1 / 14};
+  \end{tikzpicture}%
+}
+
+% ============================================================
+% MACRO: Thanh tiến độ ngang
+% ============================================================
+\newcommand{\ProgressBar}[2]{%
+  \begin{tikzpicture}[baseline=-0.3ex]
+    \fill[bordergray!50] (0,0) rectangle (2.2,0.16);
+    \fill[#2] (0,0) rectangle (#1*0.022,0.16);
+    \node[anchor=west, font=\fontsize{6.2}{6.2}\selectfont\bfseries\sffamily]
+      at (2.25, 0.08) {#1\%};
+  \end{tikzpicture}%
+}
+
+\begin{document}
+
+% ===========================================================
+% SLIDE 1 — BÌA
+% ===========================================================
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[samdark] (current page.south west)
+    -- ++(0,3.8cm)
+    .. controls ++(7cm,-1.8cm) and ++(-5cm,1.2cm) ..
+    ($(current page.south east)+(0,4.5cm)$)
+    -- (current page.south east) -- cycle;
+  \fill[samblue] (current page.south west)
+    -- ++(0,3.1cm)
+    .. controls ++(6cm,-1.5cm) and ++(-6cm,0.9cm) ..
+    ($(current page.south east)+(0,3.7cm)$)
+    -- (current page.south east) -- cycle;
+  \node[anchor=north west]
+    at ($(current page.north west)+(0.7cm,-0.55cm)$) {\LogoBlue};
+  \node[anchor=south, align=center]
+    at ($(current page.south)+(0,0.3cm)$) {
+      {\fontsize{6}{7}\selectfont\bfseries\color{samcyan}Together for Tomorrow!}\\[1pt]
+      {\fontsize{8.5}{9.5}\selectfont\bfseries\color{white}Enabling People}\\[1pt]
+      {\fontsize{4.8}{5.5}\selectfont\color{white!75}Education for Future Generations}
+    };
+\end{tikzpicture}
+
+\vspace*{1.05cm}
+\begin{minipage}{0.9\textwidth}
+  {\fontsize{15}{18}\selectfont\bfseries\sffamily\color{samdark}
+    MediBot AI --- Trợ lý Y tế Đa Phương Thức Thông Minh}\\[0.16cm]
+  {\fontsize{8.5}{11}\selectfont\sffamily\color{textgray}
+    Hệ thống Sàng lọc Phân tầng Lâm sàng, Trích xuất Triệu chứng \& Tra cứu Phác đồ Bộ Y Tế}\\[0.50cm]
+  {\color{samblue}\rule[-0.1ex]{3pt}{1.15em}}\hspace{0.2cm}%
+  {\fontsize{9.8}{12}\selectfont\bfseries\sffamily\color{samblue}
+    Samsung Innovation Campus --- Capstone Project Presentation}\\[0.16cm]
+  \hspace{0.3cm}{\fontsize{7.6}{9.2}\selectfont\bfseries\sffamily\color{textgray}
+    Nhóm SIC-UTT $\cdot$
+    Nguyễn Bá Duy (Trưởng nhóm) $\cdot$
+    Trương Tuấn Vũ $\cdot$
+    Nguyễn Trần Hiệp $\cdot$
+    Đặng Thị Thúy Linh}\\[0.06cm]
+  \hspace{0.3cm}{\fontsize{6.5}{8}\selectfont\sffamily\color{textgray}
+    Phiên bản hệ thống: Phase 2 Production Beta $|$ Kết quả đo kiểm thực nghiệm 100\% trên Codebase}
+\end{minipage}
+\newpage
+
+% ===========================================================
+% SLIDE 2 — MỤC LỤC
+% ===========================================================
+\SlideHead{Nội Dung Trình Bày}{Tổng quan cấu trúc 14 slides đề tài MediBot AI}{SLIDE 02}
+\vspace*{-0.18cm}
+\setlength{\multicolsep}{0pt}
+
+\begin{multicols}{2}
+  \Lone{1. Đặt Vấn Đề \& Mục Tiêu}
+  \Ltwo{Thực trạng quá tải y tế \& Giải pháp tiếp cận}
+
+  \Lone{2. Kiến Trúc Hệ Sinh Thái}
+  \Ltwo{Monorepo: Frontend + FastAPI + AI Engine}
+
+  \Lone{3. CSDL Tri Thức \& Phác Đồ BYT}
+  \Ltwo{1.407 mã ICD-10 \& 427 phác đồ chính quy}
+
+  \Lone{4. PhoBERT Medical NER}
+  \Ltwo{Transformer Token Classification (199 tensors)}
+
+  \Lone{5. Phân Loại Lâm Sàng Hybrid}
+  \Ltwo{NLP Classifier + Tabular XGBoost (211 lớp)}
+
+  \Lone{6. Late Fusion \& Cờ Đỏ Cấp Cứu}
+  \Ltwo{Độ trễ $\le 50$ms, cảnh báo FAST, STEMI, Sốc}
+
+  \Lone{7. Shannon Entropy \& Làm Rõ}
+  \Ltwo{Thu hẹp chẩn đoán với thông tin bất định}
+
+  \columnbreak
+
+  \Lone{8. RAG Dense Vector Database}
+  \Ltwo{1.840 tài liệu lâm sàng, 384-dim embeddings}
+
+  \Lone{9. Mô Hình Gemini 2.0 Flash}
+  \Ltwo{Multi-turn context 20 lượt, SSE typewriter}
+
+  \Lone{10. Xử Lý Xét Nghiệm \& Sinh Lý}
+  \Ltwo{Lab Sanity Checker, hiệu chỉnh OCR tự động}
+
+  \Lone{11. Đánh Giá Hiệu Năng}
+  \Ltwo{Top-1 90.67\%, Top-3 96.00\% (150 ca holdout)}
+
+  \Lone{12. Phân Tích Độ Trễ Hệ Thống}
+  \Ltwo{Breakdown từng chặng: Phản hồi $< 1.2$ giây}
+
+  \Lone{13. Scorecard Hoàn Thiện (90\%)}
+  \Ltwo{Đánh giá 9 modules đạt chuẩn Production Beta}
+
+  \Lone{14. Kết Luận \& Định Hướng}
+  \Ltwo{Đóng góp thực tiễn và lộ trình mở rộng}
+\end{multicols}
+
+\SlideFooter{2}
+\newpage
+
+% ===========================================================
+% SLIDE 3 — ĐẶT VẤN ĐỀ & MỤC TIÊU
+% ===========================================================
+\SlideHead{1. Đặt Vấn Đề \& Mục Tiêu Đề Tài}{Giải quyết điểm nghẽn tiếp nhận bệnh nhân tuyến đầu tại Việt Nam}{SLIDE 03}
+
+\begin{minipage}[t]{0.48\textwidth}
+\Lone{Thực trạng \& Thách thức Tiếp nhận Y tế}
+\Ltwo{\textbf{Quá tải nghiêm trọng}: Các bệnh viện tuyến trung ương luôn trong tình trạng quá tải phòng khám tiếp đón ban đầu.}
+\Ltwo{\textbf{Mô tả triệu chứng mơ hồ}: Người dân dùng khẩu ngữ đời thường, tiếng lóng, khó mô tả chính xác bệnh cảnh.}
+\Ltwo{\textbf{Đọc sai kết quả xét nghiệm}: Bệnh nhân không tự hiểu các chỉ số công thức máu (CBC), sinh hóa máu cơ bản.}
+\Ltwo{\textbf{Bỏ sót thời gian vàng cấp cứu}: Thiếu công cụ phát hiện tức thì đột quỵ (FAST), nhồi máu cơ tim, sốc sốt xuất huyết.}
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.49\textwidth}
+\Lone{Mục tiêu Giải pháp MediBot AI}
+\Ltwo{\textbf{Sàng lọc phân tầng tự động}: Kết hợp dữ liệu văn bản, giọng nói (STT) và ảnh/PDF phiếu xét nghiệm (OCR).}
+\Ltwo{\textbf{Phân loại trên 211 nhóm bệnh lý}: Dự đoán Top-1 và Top-3 mã bệnh ICD-10 độ chính xác cao ($> 90\%$).}
+\Ltwo{\textbf{Cảnh báo khẩn cấp tức thời}: Cổng Red Flag xử lý trong $\le 50\text{ ms}$, kích hoạt hotline 115 và chỉ dẫn sơ cứu.}
+\Ltwo{\textbf{Tham chiếu phác đồ chính thống}: RAG truy xuất từ 427 phác đồ Bộ Y Tế, chống ảo giác y khoa (Hallucination).}
+\Ltwo{\textbf{Tư vấn tự nhiên qua LLM}: Tích hợp Gemini 2.0 Flash với trí nhớ hội thoại 20 lượt đối thoại.}
+\end{minipage}
+
+\SlideFooter{3}
+\newpage
+
+% ===========================================================
+% SLIDE 4 — KIẾN TRÚC HỆ SINH THÁI ĐA PHƯƠNG THỨC
+% ===========================================================
+\SlideHead{2. Kiến Trúc Hệ Sinh Thái Đa Phương Thức}{Monorepo Clean Architecture tích hợp luồng xử lý 8 bước khép kín}{SLIDE 04}
+\vspace*{-0.10cm}
+
+\begin{minipage}[t]{0.50\textwidth}
+\Lone{Cấu trúc 3 Phân hệ Kiến trúc (Monorepo)}
+\Ltwo{\textbf{Next.js 14}: Giao diện streaming SSE typewriter, upload phiếu xét nghiệm, STT audio visualizer, admin panel.}
+\Ltwo{\textbf{FastAPI Backend}: Chat Service (628 dòng), quản lý session, JWT an toàn, cổng kết nối WebSocket/SSE.}
+\Ltwo{\textbf{Core AI Engine}: Điều phối PhoBERT NER, XGBoost, Dense RAG, Shannon Entropy \& Gemini 2.0 Flash.}
+
+\vspace{0.04cm}
+\Lone{Khả năng Dự phòng Cao (High Resilience)}
+\Ltwo{Qdrant DB tự động failover sang In-Memory Dense Matrix.}
+\Ltwo{Gemini 2.0 Flash tự động fallback Rule-based Clinical Engine.}
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.48\textwidth}
+\Lone{Luồng Xử Lý 4 Tầng Pipeline}
+\Ltwo{\textbf{Tầng 1 --- Tiếp Nhận \& Tiền Xử Lý}: Phân loại Intent Guard, chuyển giọng nói Whisper STT, bóc tách ảnh/PDF xét nghiệm qua OCR.}
+\Ltwo{\textbf{Tầng 2 --- Trích Xuất Thực Thể \& Cờ Đỏ}: PhoBERT NER gán nhãn BIO triệu chứng, bộ lọc Red Flag quét cấp cứu khẩn trong $\le 50\text{ ms}$.}
+\Ltwo{\textbf{Tầng 3 --- Phân Loại \& Hòa Trộn Late Fusion}: Kết hợp NLP Classifier và Tabular XGBoost trên 211 nhóm bệnh, đo Shannon Entropy.}
+\Ltwo{\textbf{Tầng 4 --- Tham Chiếu Tri Thức \& Suy Luận}: RAG Dense Vector truy xuất 427 phác đồ BYT, Gemini 2.0 Flash trả lời qua SSE stream.}
+\end{minipage}
+
+\SlideFooter{4}
+\newpage
+
+% ===========================================================
+% SLIDE 5 — CSDL TRI THỨC Y KHOA & PHÁC ĐỒ BỘ Y TẾ
+% ===========================================================
+\SlideHead{3. CSDL Tri Thức Y Khoa \& Phác Đồ Bộ Y Tế}{Chuẩn hóa tri thức từ 22 chương ICD-10 và ngân hàng phác đồ BYT Việt Nam}{SLIDE 05}
+
+\begin{minipage}[t]{0.49\textwidth}
+\Lone{Cơ Sở Dữ Liệu Bệnh Lý ICD-10 Chuẩn Hóa}
+\Ltwo{\textbf{1.407 mã bệnh ICD-10}: Biên dịch và chuẩn hóa tiếng Việt đầy đủ từ 22 chương bệnh của Bộ Y Tế (\texttt{chuong1} đến \texttt{chuong22}).}
+\Ltwo{\textbf{211 nhóm bệnh lý trọng điểm}: Không gian bệnh lý tích cực (Active Classes) được đánh chỉ mục trong \texttt{disease\_classes\_index.json}, bao phủ hầu hết các ca ngoại trú thường gặp.}
+\Ltwo{Mỗi thực thể bệnh bao gồm: tên chuẩn tiếng Việt, tên tiếng Anh, triệu chứng điển hình (cardinal), triệu chứng kèm theo, dặn dò phòng ngừa và dấu hiệu cấp cứu.}
+
+\vspace{0.08cm}
+\Lone{Kho Phác Đồ Điều Trị Bộ Y Tế}
+\Ltwo{\textbf{427 văn bản phác đồ chính thức} (\texttt{rag\_knowledge\_store.json}): Hướng dẫn chẩn đoán và điều trị chính quy (QĐ 2760/QĐ-BYT sốt xuất huyết, phác đồ hen, đái tháo đường, tim mạch,...).}
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.48\textwidth}
+\Lone{Từ Điển Triệu Chứng \& Chuẩn Hóa Ngữ Nghĩa}
+\vspace{0.05cm}
+{\fontsize{7.2}{8.8}\selectfont\sffamily
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Tài nguyên CSDL} & \textbf{Quy mô} & \textbf{Đặc tính kỹ thuật} \\ \hline
+\texttt{icd10\_codes.json} & 1.407 mã & 22 chương BYT \\ \hline
+\texttt{disease\_classes\_index} & 211 lớp & Active classifiers \\ \hline
+\texttt{symptom\_synonyms.json} & 461 KB & 1.030 gốc, 4.250 từ \\ \hline
+\texttt{rag\_knowledge\_store} & 427 tài liệu & Phác đồ điều trị BYT \\ \hline
+TF-IDF Char N-Gram & 33.484 features & Chuẩn hóa 14.156 khái niệm \\ \hline
+QA Corpus Y Khoa & 6 corpus lớn & Tư vấn ngoại trú thực tế \\ \hline
+\end{tabular}
+}
+\vspace{0.12cm}
+\Ltwo{Ánh xạ đa dạng khẩu ngữ địa phương: ví dụ \textit{"nổi mề đay"}, \textit{"nổi mẩn ngứa"}, \textit{"phát ban đỏ"} $\to$ chuẩn hóa về thực thể duy nhất: \textbf{Dị ứng da / Mày đay}.}
+\end{minipage}
+
+\SlideFooter{5}
+\newpage
+
+% ===========================================================
+% SLIDE 6 — PHOBERT MEDICAL NER
+% ===========================================================
+\SlideHead{4. PhoBERT Medical NER (Deep Learning Transformer)}{Mô hình trích xuất thực thể y tế tiếng Việt thuần học sâu --- 199 Tensors weights}{SLIDE 06}
+
+\begin{minipage}[t]{0.49\textwidth}
+\Lone{Kiến Trúc Mô Hình \& Bộ Trọng Số}
+\Ltwo{Xây dựng trên nền tảng \textbf{vinai/phobert-base-v2} fine-tuned chuyên biệt cho thực thể lâm sàng tiếng Việt.}
+\Ltwo{Bộ weights nạp trực tiếp gồm \textbf{199 tensors} (\texttt{model.safetensors}, \texttt{config.json}, \texttt{vocab.txt}, \texttt{bpe.codes}) tại thư mục \texttt{models\_weights/phobert\_ner/}.}
+\Ltwo{\textbf{Tập dữ liệu huấn luyện}: 50.000 mẫu câu lâm sàng gán nhãn BIO (\texttt{phobert\_synthetic\_ner.json}) mô phỏng câu nói tự nhiên của bệnh nhân.}
+\Ltwo{Cơ chế Self-Attention nắm bắt mối tương quan xa trong câu dài, loại bỏ phụ thuộc vào từ điển từ khóa thô sơ.}
+
+\vspace{0.08cm}
+\Lone{Khả Năng Trích Xuất Đa Thực Thể}
+\Ltwo{\textbf{Triệu chứng (SYMPTOM)}: Sốt cao, đau đầu dữ dội, tức ngực...}
+\Ltwo{\textbf{Dấu hiệu sinh tồn}: Thân nhiệt ($39^\circ\text{C}$), thời gian khởi phát.}
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.48\textwidth}
+\Lone{Thuật Toán Xử Lý Ngữ Cảnh Phủ Định (Negation)}
+\Ltwo{Áp dụng thuật toán \textbf{Window Negation Boundary} (cửa sổ 45 ký tự trước thực thể kết hợp dấu ngắt câu và liên từ).}
+\Ltwo{Bộ 9 biểu thức quy tắc y khoa nghiêm ngặt nhận diện câu phủ định: \textit{"không bị", "chưa từng", "hết hẳn", "hoàn toàn không thấy", "âm tính với"...}}
+\Ltwo{Phân loại rạch ròi 2 tập: \texttt{extracted\_symptoms} và \texttt{negated\_symptoms} để ngăn chặn chẩn đoán sai lệch.}
+
+\vspace{0.12cm}
+\begin{tikzpicture}
+  \node[draw=samblue, fill=lightbg, rounded corners=3pt, inner sep=5pt, font=\fontsize{6.8}{8.2}\selectfont\sffamily, text width=6.8cm] {
+    \textbf{Ví dụ thực tế trích xuất}:\\
+    \textit{"Tôi sốt 39 độ, đau đầu nhưng \textbf{không} buồn nôn hay chảy máu chân răng."}\\
+    $\Rightarrow$ \textbf{Triệu chứng khẳng định}: Sốt cao, Đau đầu\\
+    $\Rightarrow$ \textbf{Triệu chứng phủ định}: Buồn nôn, Chảy máu chân răng
+  };
+\end{tikzpicture}
+\end{minipage}
+
+\SlideFooter{6}
+\newpage
+
+% ===========================================================
+% SLIDE 7 — MÔ HÌNH PHÂN LOẠI LÂM SÀNG HYBRID
+% ===========================================================
+\SlideHead{5. Mô Hình Phân Loại Lâm Sàng Hybrid}{Kết hợp Calibrated NLP Semantic Classifier và Tabular XGBoost trên 211 lớp}{SLIDE 07}
+
+\begin{minipage}[t]{0.49\textwidth}
+\Lone{Nhánh 1: NLP Semantic Classifier}
+\Ltwo{Chuyển đổi văn bản triệu chứng thành ma trận đặc trưng qua \textbf{TF-IDF Vectorizer} (ngram 1--3, tối đa 12.000 features, sublinear TF).}
+\Ltwo{Bộ phân loại \textbf{CalibratedClassifierCV} (Logistic Regression $C=5.0$, 3-fold cross validation) hiệu chuẩn xác suất chuẩn xác.}
+\Ltwo{Không gian đầu ra: Phân loại trực tiếp \textbf{211 nhóm bệnh lý ICD-10} với xác suất $P_{\text{text}}(c)$.}
+
+\vspace{0.08cm}
+\Lone{Nhánh 2: Tabular XGBoost Classifier}
+\Ltwo{Huấn luyện trên \textbf{23 đặc trưng lâm sàng}: 9 chỉ số sinh hóa máu (WBC, PLT, RBC, HGB, HCT, AST, ALT, GLUCOSE, CREATININE) và 14 cờ triệu chứng nhị phân lâm sàng.}
+\Ltwo{Cấu hình tối ưu: 180 cây quyết định (\texttt{n\_estimators=180}), \texttt{max\_depth=6}, \texttt{learning\_rate=0.08}, hàm mục tiêu \texttt{multi:softprob} trên 211 classes.}
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.48\textwidth}
+\Lone{Hiệu Suất Huấn Luyện Các Mô Hình}
+\vspace{0.05cm}
+{\fontsize{7.2}{8.8}\selectfont\sffamily
+\begin{tabular}{|l|c|r|}
+\hline
+\textbf{Mô hình} & \textbf{Kích thước} & \textbf{Độ chính xác Train/Val} \\ \hline
+NLP Symptom Classifier & 10.5 MB & \textbf{91.4\%} (Val Accuracy) \\ \hline
+TF-IDF Vectorizer & 518 KB & 12.000 features n-gram \\ \hline
+Tabular XGBoost & 1.54 MB & \textbf{92.8\%} (Val Accuracy) \\ \hline
+Label Index Mapping & 41 KB & 211 classes active \\ \hline
+\end{tabular}
+}
+
+\vspace{0.14cm}
+\Lone{Ưu Thế Của Mô Hình Đa Nhánh}
+\Ltwo{Khi bệnh nhân chỉ nhập triệu chứng bằng lời: Nhánh NLP gánh trọng trách phân loại chính.}
+\Ltwo{Khi có kết quả xét nghiệm máu: Nhánh Tabular phát huy sức mạnh phân biệt vượt trội (ví dụ Dengue tụt PLT sâu $< 100$, viêm gan men gan AST/ALT tăng vọt).}
+\end{minipage}
+
+\SlideFooter{7}
+\newpage
+
+% ===========================================================
+% SLIDE 8 — LATE FUSION & CỔNG LỌC CỜ ĐỎ CẤP CỨU
+% ===========================================================
+\SlideHead{6. Late Fusion \& Cổng Lọc Cờ Đỏ Cấp Cứu}{Cơ chế hòa trộn động đa phương thức và bộ lọc khẩn cấp thời gian thực $\le 50$ms}{SLIDE 08}
+
+\begin{minipage}[t]{0.49\textwidth}
+\Lone{Cơ Chế Hòa Trộn Xác Suất Late Fusion}
+\Ltwo{Xác suất tổng hợp cuối cùng được tính theo công thức hàm trọng số thích ứng:}
+\begin{equation*}
+  P_{\text{final}}(c) = \alpha \cdot P_{\text{tabular}}(c) + (1 - \alpha) \cdot P_{\text{text}}(c)
+\end{equation*}
+\Ltwo{\textbf{Trọng số động $\alpha$}:
+  \begin{itemize}
+    \setlength{\itemsep}{0pt}
+    \item $\alpha = 0.65$: Khi có kết quả xét nghiệm máu (ưu tiên chỉ số định lượng khách quan).
+    \item $\alpha = 0.00$: Khi chỉ có lời khai triệu chứng từ bệnh nhân.
+  \end{itemize}
+}
+\Ltwo{\textbf{Penalization Phủ định}: Các bệnh xuất hiện trong tập triệu chứng phủ định bị phạt trừ xác suất tự động.}
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.48\textwidth}
+\Lone{Cổng Lọc Cờ Đỏ Cấp Cứu (Red Flag Rapid Filter)}
+\Ltwo{Chạy song song ở tầng đầu vào với \textbf{độ trễ siêu tốc $\le 50\text{ ms}$}.}
+\Ltwo{\textbf{FAST Protocol (Đột quỵ não)}: Méo miệng, lệch mặt, yếu liệt nửa người, nói ngọng $\to$ kích hoạt cảnh báo đột quỵ khẩn.}
+\Ltwo{\textbf{STEMI/NSTEMI (Nhồi máu cơ tim)}: Đau ngực đè ép dữ dội lan tay trái/hàm, vã mồ hôi, khó thở hoặc Troponin tăng.}
+\Ltwo{\textbf{Dengue Shock}: Xuất huyết chân răng/chảy máu cam + sốt cao kéo dài + tiểu cầu hạ cấp tính ($< 50 \text{ G/L}$).}
+\Ltwo{\textbf{Hành động can thiệp}: Hiển thị khung báo động đỏ, nút gọi cấp cứu 115 một chạm và cẩm nang sơ cứu tại chỗ.}
+\end{minipage}
+
+\SlideFooter{8}
+\newpage
+
+% ===========================================================
+% SLIDE 9 — ĐỘNG CƠ SHANNON ENTROPY & LÀM RÕ
+% ===========================================================
+\SlideHead{7. Động Cơ Shannon Entropy \& Làm Rõ}{Thuật toán đo lường độ bất định thông tin và điều phối câu hỏi gạn lọc}{SLIDE 09}
+
+\begin{minipage}[t]{0.49\textwidth}
+\Lone{Định Lượng Độ Bất Định Lâm Sàng}
+\Ltwo{Khi bệnh nhân cung cấp thông tin chung chung (\textit{"thấy mệt mỏi, khó chịu"}), xác suất dự đoán bị phân tán đều trên nhiều bệnh.}
+\Ltwo{Hệ thống tính toán \textbf{Độ hỗn loạn thông tin Shannon (Shannon Entropy)} trên Top-$K$ phân phối xác suất dự đoán:}
+\vspace{0.02cm}
+{\centering\color{samblue}$H(P) = -\sum_{i=1}^{K} p_i \log_2(p_i)$\par}
+\vspace{0.02cm}
+\Ltwo{\textbf{Điều kiện kích hoạt Clarification Loop}:
+  \begin{itemize}
+    \setlength{\itemsep}{0pt}
+    \item $H(P) > \theta = 1.8$ nats (độ hỗn loạn vượt ngưỡng an toàn).
+    \item Hoặc khoảng cách xác suất Top-1 và Top-2: $\Delta p = p_{(1)} - p_{(2)} < 0.15$.
+  \end{itemize}
+}
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.48\textwidth}
+\Lone{Cơ Chế Sinh Câu Hỏi Phân Biệt}
+\Ltwo{Tự động tra cứu ngân hàng câu hỏi lâm sàng theo cặp bệnh cần phân biệt (Differential Diagnosis).}
+\Ltwo{Lựa chọn 2--3 câu hỏi có \textbf{Information Gain} cao nhất về triệu chứng khu biệt quan trọng.}
+\Ltwo{Sau phản hồi, cập nhật xác suất Bayes, thu hẹp không gian chẩn đoán nhanh chóng.}
+
+\vspace{0.05cm}
+\begin{tikzpicture}
+  \node[draw=samblue, fill=yellowbg, rounded corners=3pt, inner sep=4pt, font=\fontsize{6.6}{8}\selectfont\sffamily, text width=6.8cm] {
+    \textbf{Tình huống thực tế (Case 005)}:\\
+    Input: \textit{"Tôi thấy trong người hơi mệt mỏi, khó chịu"}\\
+    $\Rightarrow$ Entropy $H = 2.31 > 1.8 \to$ Kích hoạt làm rõ:\\
+    1. Bạn có bị sốt hoặc gai rét không?\\
+    2. Triệu chứng này đã kéo dài bao nhiêu ngày?\\
+    3. Bạn có kèm theo ho, khó thở hay đau tức ngực không?
+  };
+\end{tikzpicture}
+\end{minipage}
+
+\SlideFooter{9}
+\newpage
+
+% ===========================================================
+% SLIDE 10 — HỆ THỐNG RAG DENSE VECTOR DATABASE
+% ===========================================================
+\SlideHead{8. Hệ Thống RAG Dense Vector Database}{Truy xuất 1.840 tài liệu lâm sàng dựa trên không gian vector ngữ nghĩa 384 chiều}{SLIDE 10}
+
+\begin{minipage}[t]{0.49\textwidth}
+\Lone{Kiến Trúc Dense Retrieval Chuyên Sâu}
+\Ltwo{Không sử dụng từ khóa so khớp thô (BM25/TF-IDF đơn thuần), hệ thống sử dụng \textbf{Dense Semantic Embeddings 384 chiều} chuyển đổi toàn bộ phác đồ y khoa thành các vector tri thức.}
+\Ltwo{\textbf{Quy mô tri thức nạp vào DB}: \textbf{1.840 tài liệu lâm sàng} bao gồm:
+  \begin{itemize}
+    \setlength{\itemsep}{0pt}
+    \item 427 phác đồ chẩn đoán và điều trị chính thức của Bộ Y Tế.
+    \item 1.407 hồ sơ chi tiết mã bệnh ICD-10.
+    \item 6 bộ hồ sơ ca bệnh tư vấn lâm sàng ngoại trú thực tế.
+  \end{itemize}
+}
+\Ltwo{\textbf{Cơ chế Resilient In-Memory Failover}: Nếu dịch vụ Qdrant Vector DB gặp sự cố, hệ thống tự động kích hoạt ma trận NumPy Cosine Similarity nội tại với độ trễ $< 45\text{ ms}$, tính sẵn sàng đạt 100\%.}
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.48\textwidth}
+\Lone{Thuật Toán Truy Vấn Lai (Hybrid Retrieval)}
+\Ltwo{Kết hợp Cosine Vector Similarity với mã bệnh dự đoán từ phân loại học sâu để tăng trọng số phác đồ chính xác.}
+\Ltwo{Trích xuất Top-3 tài liệu phác đồ có điểm tin cậy cao nhất gắn kèm trích dẫn pháp lý và y văn chính quy.}
+
+\vspace{0.08cm}
+\Lone{Thực Nghiệm Truy Vấn (Query Benchmark)}
+\vspace{0.04cm}
+{\fontsize{7}{8.5}\selectfont\sffamily
+\begin{tabular}{|p{4.2cm}|c|c|}
+\hline
+\textbf{Tài liệu phác đồ truy xuất} & \textbf{Mã} & \textbf{Điểm số} \\ \hline
+Hướng dẫn Chẩn đoán \& Lâm sàng SXH Dengue & A90 & \textbf{0.9049} \\ \hline
+Phác đồ Dược Lâm sàng \& Xử trí Dengue & A90 & \textbf{0.7665} \\ \hline
+Phác đồ BYT điều trị SXH người lớn (QĐ 2760) & A90 & \textbf{0.6911} \\ \hline
+\end{tabular}
+}
+\Ltwo{Triệt tiêu hiện tượng ảo giác (Hallucination) của LLM bằng việc ép buộc căn cứ vào văn bản phác đồ thực tế.}
+\end{minipage}
+
+\SlideFooter{10}
+\newpage
+
+% ===========================================================
+% SLIDE 11 — MÔ HÌNH SUY LUẬN LÂM SÀNG GEMINI 2.0 FLASH
+% ===========================================================
+\SlideHead{9. Mô Hình Suy Luận Lâm Sàng Gemini 2.0 Flash}{Thế hệ mô hình tiên tiến nhất với bộ nhớ ngữ cảnh 20 lượt đối thoại}{SLIDE 11}
+
+\begin{minipage}[t]{0.49\textwidth}
+\Lone{Tích Hợp Mô Hình Gemini 2.0 Flash}
+\Ltwo{Ứng dụng mô hình suy luận đa phương thức mới nhất \textbf{gemini-2.0-flash} từ Google DeepMind.}
+\Ltwo{\textbf{System Prompt Y tế Tiếng Việt Chuyên Biệt}: Được tinh chỉnh theo chuẩn mực giao tiếp bác sĩ --- bệnh nhân: giải thích cặn kẽ, thái độ ân cần, khuyến cáo rõ ràng không tự ý dùng kháng sinh.}
+\Ltwo{\textbf{Multi-turn Context Memory 20 lượt}: Cửa sổ trượt lưu giữ 20 lượt đối thoại gần nhất (40 tin nhắn), nắm trọn tiền sử bệnh, dị ứng thuốc và diễn tiến triệu chứng trong suốt phiên tư vấn.}
+
+\vspace{0.08cm}
+\Lone{Trải Nghiệm Thời Gian Thực (SSE Streaming)}
+\Ltwo{Kỹ thuật truyền luồng Server-Sent Events (SSE) theo cơ chế gõ chữ (Typewriter), giảm thời gian chờ đợi của người dùng.}
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.48\textwidth}
+\Lone{Kiến Trúc Dự Phòng An Toàn 3 Tầng (3-Tier Fallback)}
+\vspace{0.06cm}
+\begin{tikzpicture}
+  \node[draw=samblue, fill=lightbg, rounded corners=3pt, inner sep=4pt, font=\fontsize{7}{8.2}\selectfont\sffamily, text width=6.8cm] {
+    \textbf{Tầng 1 (Primary)}: Gemini 2.0 Flash API\\
+    $\to$ Suy luận sâu, giải thích phác đồ, trả về SSE stream.\\
+    \vspace{2pt}
+    \textbf{Tầng 2 (Local Fallback)}: Clinical Reasoning Service\\
+    $\to$ Rule-based engine cục bộ ghép phác đồ Bộ Y Tế thành văn bản tư vấn có cấu trúc khi mất kết nối Internet.\\
+    \vspace{2pt}
+    \textbf{Tầng 3 (Safety Guard)}: Emergency Safety Template\\
+    $\to$ Mẫu phản hồi an toàn y khoa tuyệt đối khi phát hiện cờ đỏ cấp cứu hoặc lỗi hệ thống không xác định.
+  };
+\end{tikzpicture}
+\Ltwo{Đảm bảo dịch vụ tư vấn y tế \textbf{hoạt động liên tục 24/7} không bao giờ bị sập hay mất kết nối hoàn toàn.}
+\end{minipage}
+
+\SlideFooter{11}
+\newpage
+
+% ===========================================================
+% SLIDE 12 — XỬ LÝ PHIẾU XÉT NGHIỆM & KIỂM ĐỊNH SINH LÝ
+% ===========================================================
+\SlideHead{10. Xử Lý Xét Nghiệm \& Kiểm Định Sinh Lý}{Lab Sanity Checker tự động phát hiện lỗi OCR và cảnh báo ngưỡng nguy cấp}{SLIDE 12}
+
+\begin{minipage}[t]{0.49\textwidth}
+\Lone{Quy Trình Tiếp Nhận Đa Phương Thức}
+\Ltwo{\textbf{Định dạng hỗ trợ}: Tệp PDF bệnh án (PyMuPDF) hoặc ảnh chụp phiếu xét nghiệm (EasyOCR / Tesseract).}
+\Ltwo{\textbf{Dynamic Regex Parser}: Bóc tách tên chỉ số, giá trị số thực và đơn vị đo chuẩn y tế ($10^9/\text{L}$, $\text{g/dL}$, $\mu\text{mol/L}$).}
+
+\vspace{0.08cm}
+\Lone{Thuật Toán Lab Sanity Checker}
+\Ltwo{\textbf{Tự động sửa lỗi quang học (OCR)}: Phát hiện nhầm lẫn dấu chấm thập phân. Ví dụ: nhận diện WBC 320.0 tự động điều chỉnh về \textbf{3.2} ($10^9/\text{L}$) phù hợp sinh lý.}
+\Ltwo{\textbf{Kiểm định 9 chỉ số cơ bản}: WBC (Bạch cầu), PLT (Tiểu cầu), RBC (Hồng cầu), HGB (Hemoglobin), HCT, AST, ALT (Men gan), Glucose (Đường huyết), Creatinine (Chức năng thận) và Troponin I/T.}
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.48\textwidth}
+\Lone{Phân Tầng Cảnh Báo Ngưỡng Sinh Tồn}
+\vspace{0.05cm}
+{\fontsize{7}{8.5}\selectfont\sffamily
+\begin{tabular}{|l|c|c|l|}
+\hline
+\textbf{Chỉ số} & \textbf{Giá trị} & \textbf{Trạng thái} & \textbf{Hành động} \\ \hline
+WBC & 3.2 $10^9$/L & LOW & Cảnh báo suy giảm miễn dịch \\ \hline
+PLT & 45 $10^9$/L & \textbf{CRIT\_LOW} & Báo động xuất huyết nguy cấp \\ \hline
+ALT & 420 U/L & HIGH & Cảnh báo hủy hoại tế bào gan \\ \hline
+Troponin & 50 ng/L & \textbf{CRIT\_HIGH} & Kích hoạt cấp cứu nhồi máu tim \\ \hline
+\end{tabular}
+}
+
+\vspace{0.12cm}
+\Lone{Đóng Góp Vào Late Fusion}
+\Ltwo{Các chỉ số sau kiểm định được đưa vào nhánh Tabular XGBoost để tăng vọt độ tin cậy của chẩn đoán (ví dụ PLT $< 50$ làm tăng xác suất Sốt xuất huyết Dengue từ 35\% lên 92\%).}
+\end{minipage}
+
+\SlideFooter{12}
+\newpage
+
+% ===========================================================
+% SLIDE 13 — ĐÁNH GIÁ HIỆU NĂNG THỰC NGHIỆM & ĐỘ TRỄ
+% ===========================================================
+\SlideHead{11. Đánh Giá Hiệu Năng Thực Nghiệm \& Độ Trễ}{Kết quả đo kiểm trên 150 ca bệnh kiểm định độc lập và bài test E2E thực tế}{SLIDE 13}
+
+\begin{minipage}[t]{0.50\textwidth}
+\Lone{Độ Chính Xác Phân Loại (150 Ca Holdout Set)}
+{\fontsize{7}{8.5}\selectfont\sffamily
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Tiêu chí Đánh giá} & \textbf{Số lượng / Tỷ lệ} & \textbf{Đánh giá} \\ \hline
+Tổng số ca bệnh kiểm định & 150 ca lâm sàng & Độc lập \\ \hline
+\textbf{Độ chính xác Top-1} & \textbf{136 / 150 (90.67\%)} & \Good{} Xuất sắc \\ \hline
+\textbf{Độ chính xác Top-3} & \textbf{144 / 150 (96.00\%)} & \Good{} Rất cao \\ \hline
+Sai số phân loại Top-1 & 14 / 150 (9.33\%) & Ca triệu chứng mờ nhạt \\ \hline
+Benchmark E2E (8 ca test) & 8 / 8 (100.0\%) & \Good{} Đạt 100\% \\ \hline
+Tỷ lệ kích hoạt Entropy & 100\% ca mơ hồ & \Good{} Hoàn hảo \\ \hline
+\end{tabular}
+}
+\vspace{0.08cm}
+\Ltwo{Các ca sai số Top-1 chủ yếu là ca có duy nhất 1 triệu chứng mơ hồ như \textit{"mệt mỏi dài ngày"} (khó phân biệt giữa Viêm gan B mạn và Suy giáp nếu chưa có xét nghiệm).}
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.47\textwidth}
+\Lone{Bảng Phân Tích Độ Trễ Toàn Hệ Thống (Latency)}
+{\fontsize{7}{8.5}\selectfont\sffamily
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Thành phần thực thi} & \textbf{Thời gian đáp ứng} \\ \hline
+Cổng lọc Cờ đỏ Cấp cứu (Red Flag) & \textbf{$<$ 50 ms} \\ \hline
+PhoBERT Medical NER & 85 -- 140 ms \\ \hline
+Tabular XGBoost (211 lớp) & 15 -- 30 ms \\ \hline
+NLP Semantic Classifier (211 lớp) & 35 -- 60 ms \\ \hline
+RAG Dense Vector Search (1.840 docs) & \textbf{$<$ 45 ms} \\ \hline
+Gemini 2.0 Flash (Time-to-First-Token) & 450 -- 650 ms \\ \hline
+\textbf{Tổng phản hồi đầu tiên tới User} & \textbf{$<$ 1.2 giây} \\ \hline
+\end{tabular}
+}
+\vspace{0.08cm}
+\Ltwo{Tốc độ phản hồi đạt chuẩn tương tác trực tuyến thời gian thực, không gây cảm giác nghẽn mạng cho người dùng.}
+\end{minipage}
+
+\SlideFooter{13}
+\newpage
+
+% ===========================================================
+% SLIDE 14 — SCORECARD HOÀN THIỆN & KẾT LUẬN
+% ===========================================================
+\SlideHead{14. Scorecard Hoàn Thiện \& Kết Luận Đề Tài}{Hệ thống đạt 90\% hoàn thiện --- Sẵn sàng cho triển khai thử nghiệm diện rộng}{SLIDE 14}
+\vspace*{-0.12cm}
+
+\begin{minipage}[t]{0.53\textwidth}
+\Lone{Scorecard 9 Phân Hệ (Phase 2 Production)}
+{\fontsize{5.5}{6.5}\selectfont\sffamily
+\renewcommand{\arraystretch}{0.72}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Phân hệ Chức năng} & \textbf{Tiến độ} & \textbf{Đánh giá} \\ \hline
+A. AI Engine / NLP (211 lớp) & \ProgressBar{92}{goodgreen} & \Good{} \\ \hline
+B. PhoBERT Medical NER (Deep Learning) & \ProgressBar{88}{goodgreen} & \Good{} \\ \hline
+C. STT + OCR \& Lab Sanity Checker & \ProgressBar{82}{goodgreen} & \Good{} \\ \hline
+D. RAG Vector DB (427 Phác đồ BYT) & \ProgressBar{88}{goodgreen} & \Good{} \\ \hline
+E. Gemini 2.0 Flash (Context 20 turns) & \ProgressBar{94}{goodgreen} & \Good{} \\ \hline
+F. Backend API (FastAPI Async + SSE) & \ProgressBar{88}{goodgreen} & \Good{} \\ \hline
+G. Database \& Memory Architecture & \ProgressBar{80}{goodgreen} & \Good{} \\ \hline
+H. Training Pipeline \& Colab Scripts & \ProgressBar{90}{goodgreen} & \Good{} \\ \hline
+I. Frontend Next.js 14 UI/UX & \ProgressBar{92}{goodgreen} & \Good{} \\ \hline
+\textbf{TỔNG THỂ HỆ THỐNG (Production Beta)} & \ProgressBar{90}{samblue} & \textcolor{samblue}{\bfseries 90\%} \\ \hline
+\end{tabular}
+}
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.44\textwidth}
+\Lone{Đóng Góp Nổi Bật \& Định Hướng}
+\Ltwo{\textbf{Ứng dụng AI chuẩn mực}: Sàng lọc phân tầng đa phương thức tiếng Việt.}
+\Ltwo{\textbf{An toàn y khoa hàng đầu}: Cờ đỏ cấp cứu $< 50$ms, 427 phác đồ BYT.}
+\Ltwo{\textbf{Sản phẩm hoàn chỉnh}: Trọn vẹn từ mô hình học sâu tới Next.js 14.}
+\Ltwo{\textbf{Định hướng}: Mở rộng app di động React Native \& chuẩn FHIR R4.}
+\end{minipage}
+
+\SlideFooter{14}
+\end{document}

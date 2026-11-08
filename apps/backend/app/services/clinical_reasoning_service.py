@@ -379,5 +379,104 @@ class UnifiedClinicalReasoningService:
             is_emergency=is_emergency
         )
 
+    async def generate_disease_encyclopedia_advice(
+        self,
+        disease_name: str,
+        user_query: str,
+        icd_code: Optional[str] = None,
+        rag_citations: Optional[List[Dict[str, Any]]] = None,
+        disease_info: Optional[Dict[str, Any]] = None,
+        gemini_api_key: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """
+        Sinh câu trả lời Tra cứu Kiến thức Bệnh học Chuyên sâu (Disease Knowledge & Encyclopedia Inquiry).
+        - Ưu tiên Cloud Gemini 2.0 Flash để giải thích chi tiết, đầy đủ 5 mục.
+        - Tự động Fallback sang Phác đồ Chuẩn Bộ Y Tế nếu Cloud AI không khả dụng.
+        """
+        response_text = None
+        used_provider = "deterministic_disease_protocol"
+        alternative_text = None
+        alternative_provider = None
+
+        has_gemini = bool((gemini_api_key or os.getenv("GEMINI_API_KEYS", "") or os.getenv("GEMINI_API_KEY", "") or os.getenv("GOOGLE_API_KEY", "")).strip())
+        if has_gemini:
+            try:
+                loop = asyncio.get_event_loop()
+                response_text = await asyncio.wait_for(
+                    loop.run_in_executor(
+                        None,
+                        lambda: self.gemini_service.synthesize_disease_knowledge_response(
+                            disease_name=disease_name,
+                            user_query=user_query,
+                            icd_code=icd_code,
+                            rag_citations=rag_citations or [],
+                            disease_info=disease_info or {},
+                            api_key=gemini_api_key
+                        )
+                    ),
+                    timeout=10.0
+                )
+                if response_text:
+                    used_provider = "cloud_gemini"
+            except Exception as e:
+                logger.warning(f"Gemini disease knowledge call failed ({e}). Using deterministic protocol.")
+
+        # Fallback từ cơ sở dữ liệu phác đồ chuẩn Bộ Y Tế
+        rag_docs = rag_citations or []
+        cardinal_syms = disease_info.get("cardinal_symptoms", []) if disease_info else []
+        all_syms = disease_info.get("all_symptoms", []) if disease_info else []
+        sym_display = ", ".join(cardinal_syms if cardinal_syms else all_syms[:6]) if (cardinal_syms or all_syms) else "Sốt, mệt mỏi, đau nhức và các dấu hiệu đặc thù theo phác đồ"
+        dept = disease_info.get("department", "Chuyên khoa") if disease_info else (rag_docs[0].get("department", "Chuyên khoa") if rag_docs else "Nội khoa")
+        red_flag_warning = disease_info.get("emergency_warning") if disease_info else (rag_docs[0].get("emergency_warning", "Xuất hiện khó thở, sốt cao không hạ, xuất huyết hoặc đau ngực dữ dội cần cấp cứu ngay.") if rag_docs else "Khó thở, sốt cao li bì hoặc nôn liên tục.")
+        precautions = disease_info.get("precautions", []) if disease_info else []
+
+        cot_thinking = (
+            "<clinical_thinking>\n"
+            f"- Cơ chế bệnh sinh & Dịch tễ học: Tra cứu bệnh học {disease_name} (Mã ICD-10: {icd_code or 'R69'}). Đánh giá nguyên nhân sinh bệnh, cơ chế tác động cơ quan đích thuộc chuyên khoa {dept}.\n"
+            f"- Triệu chứng chỉ điểm & Dấu hiệu đặc trưng: Các biểu hiện cốt lõi đã được Bộ Y Tế chuẩn hóa bao gồm: {sym_display}.\n"
+            f"- Đánh giá cờ đỏ (Red Flags): {red_flag_warning}\n"
+            f"- Phác đồ chuẩn & Khuyến cáo cận lâm sàng: Khuyến nghị xét nghiệm định lượng và tuân thủ hướng dẫn điều trị ngoại trú an toàn.\n"
+            "</clinical_thinking>"
+        )
+
+        deterministic_text = (
+            f"{cot_thinking}\n\n"
+            f"Chào bạn, tôi là **Trợ Lý Y Tế AI (MediBot)** tham vấn theo chuẩn Bộ Y Tế Việt Nam.\n\n"
+            f"## 📚 TỔNG QUAN KIẾN THỨC BỆNH HỌC: {disease_name.upper()} {f'(Mã ICD-10: `{icd_code}`)' if icd_code else ''}\n"
+            f"- **Chuyên khoa phụ trách:** {dept}\n"
+            f"- **Mức độ theo dõi:** Chuẩn hóa theo Hướng dẫn Chẩn đoán & Điều trị của Bộ Y Tế.\n\n"
+            f"### 1. Bản chất & Nguyên nhân gây bệnh\n"
+            f"- **{disease_name}** là bệnh lý thuộc chuyên khoa {dept}. Tình trạng bệnh có thể xuất phát từ nguyên nhân nhiễm trùng (virus, vi khuẩn), rối loạn chuyển hóa hoặc đáp ứng viêm cấp/mạn tính của cơ thể.\n\n"
+            f"### 2. Các triệu chứng & Dấu hiệu nhận biết điển hình\n"
+            f"- **Triệu chứng đặc trưng (Cardinal symptoms):** {sym_display}.\n"
+            f"- Người bệnh thường trải qua giai đoạn khởi phát với cảm giác mệt mỏi, sốt hoặc khó chịu cơ năng, sau đó tiến triển sang các triệu chứng đặc hiệu tại cơ quan tổn thương.\n\n"
+            f"### 3. Dấu hiệu cảnh báo nguy hiểm (Red Flags cần cấp cứu 115 ngay)\n"
+            f"- 🚨 **BÁO ĐỘNG ĐỎ:** {red_flag_warning}\n"
+            f"- Cần đưa người bệnh đến ngay khoa cấp cứu của bệnh viện gần nhất nếu xuất hiện rối loạn ý thức, khó thở tím tái hoặc xuất huyết ồ ạt.\n\n"
+            f"### 4. Phương pháp chẩn đoán & Xét nghiệm cận lâm sàng\n"
+            f"- **Xét nghiệm máu cơ bản:** Tổng phân tích tế bào máu ngoại vi (CBC), đánh giá phản ứng viêm (CRP), kiểm tra chức năng gan (AST/ALT) và thận (Creatinine/Ure).\n"
+            f"- **Thăm dò chuyên sâu:** Tùy theo chỉ định của bác sĩ tại cơ sở y tế (test nhanh kháng nguyên/kháng thể, nội soi, siêu âm hoặc chụp X-quang).\n\n"
+            f"### 5. Hướng dẫn chăm sóc & Dùng thuốc an toàn chuẩn Bộ Y Tế\n"
+            f"- **Chăm sóc tại nhà:** Bù đủ nước và điện giải (2 - 2.5 lít nước/ngày), ăn thức ăn mềm dễ tiêu hóa và nghỉ ngơi điều độ.\n"
+            f"- **Dùng thuốc an toàn:** Tuyệt đối không tự ý mua kháng sinh, thuốc giảm đau chống viêm (Aspirin/Ibuprofen) hoặc Corticoid bừa bãi khi chưa có chỉ định từ bác sĩ.\n"
+            + (f"- **Dặn dò phòng ngừa:** {', '.join(precautions)}.\n" if precautions else "")
+            + f"\n💡 *Lời khuyên Bác sĩ: Nếu bạn hoặc người thân đang có các biểu hiện nghi ngờ mắc phải tình trạng trên, hãy gõ mô tả cụ thể triệu chứng hiện tại để MediBot hỗ trợ phân tầng nguy cơ và hướng dẫn xử trí tức thì!*"
+        )
+
+        if not response_text:
+            response_text = deterministic_text
+        else:
+            alternative_text = deterministic_text
+            alternative_provider = "deterministic_disease_protocol"
+
+        return {
+            "text": response_text,
+            "provider": used_provider,
+            "is_emergency": False,
+            "alternative_text": alternative_text,
+            "alternative_provider": alternative_provider,
+            "cloud_errors": [],
+        }
+
 
 clinical_reasoning_service = UnifiedClinicalReasoningService()

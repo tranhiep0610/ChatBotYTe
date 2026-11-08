@@ -540,4 +540,105 @@ class GeminiMedicalReasoningService:
         )
         return fallback_record
 
+    def synthesize_disease_knowledge_response(
+        self,
+        disease_name: str,
+        user_query: str,
+        icd_code: Optional[str] = None,
+        rag_citations: Optional[List[Dict[str, Any]]] = None,
+        disease_info: Optional[Dict[str, Any]] = None,
+        api_key: Optional[str] = None
+    ) -> Optional[str]:
+        """
+        Tổng hợp câu trả lời Tra cứu Kiến thức Bệnh học / Bách khoa Y tế Chuyên sâu
+        khi người dùng hỏi về một bệnh cụ thể (chuẩn Bộ Y Tế & ICD-10).
+        """
+        self.last_error = None
+        keys_to_attempt = []
+        if api_key and len(api_key.strip()) >= 10:
+            keys_to_attempt.append(api_key.strip())
+        for k in self.api_keys:
+            if k and len(k.strip()) >= 10 and k not in keys_to_attempt:
+                keys_to_attempt.append(k)
+        if not keys_to_attempt and self.api_key:
+            keys_to_attempt.append(self.api_key)
+
+        if not keys_to_attempt:
+            self.last_error = "Gemini Chưa cấu hình API Key"
+            return None
+
+        system_instruction = (
+            "Bạn là Bác Sĩ Trưởng Khoa Cố Vấn Y Tế & Giáo Dục Sức Khỏe Cộng Đồng theo chuẩn Bộ Y Tế Việt Nam.\n"
+            "Người dùng đang đặt câu hỏi tìm hiểu / tra cứu kiến thức y khoa về một bệnh lý hoặc tình trạng sức khỏe cụ thể.\n\n"
+            "QUY TẮC BẮT BUỘC:\n"
+            "1. KHÔNG CHẨN ĐOÁN NGƯỜI DÙNG: Người dùng đang hỏi kiến thức bách khoa y tế, KHÔNG PHẢI đang trình bày ca bệnh của chính họ. "
+            "Tuyệt đối KHÔNG chẩn đoán giả định hay nói 'hệ thống nghi ngờ bạn bị bệnh', KHÔNG đặt câu hỏi gặng hỏi thân nhiệt hay triệu chứng cá nhân của họ.\n"
+            "2. SUY LUẬN Y HỌC CHUỖI TƯ DUY (CLINICAL THINKING - BẮT BUỘC):\n"
+            "Mở đầu câu trả lời bằng khối logic nằm trong cặp thẻ <clinical_thinking>...</clinical_thinking> gồm:\n"
+            "<clinical_thinking>\n"
+            "- Cơ chế bệnh sinh & Dịch tễ học: Bản chất bệnh học, căn nguyên gây bệnh (virus, vi khuẩn, chuyển hóa, miễn dịch), đường lây truyền hoặc yếu tố nguy cơ.\n"
+            "- Phân loại giai đoạn & Triệu chứng đặc trưng: Các giai đoạn phát triển của bệnh và những triệu chứng chỉ điểm (cardinal symptoms) không thể bỏ qua.\n"
+            "- Cờ đỏ (Red Flags) & Biến chứng đe dọa tính mạng: Các biến chứng nguy hiểm nhất và dấu hiệu cần đưa người bệnh đến bệnh viện cấp cứu 115 ngay.\n"
+            "- Phác đồ chuẩn Bộ Y Tế & Định hướng xử trí: Nguyên tắc điều trị, dùng thuốc an toàn, xét nghiệm cận lâm sàng then chốt và biện pháp phòng ngừa.\n"
+            "</clinical_thinking>\n\n"
+            "3. NỘI DUNG TƯ VẤN BÁCH KHOA Y HỌC (Sau thẻ </clinical_thinking>):\n"
+            "Trình bày chi tiết, chuyên nghiệp, khoa học và ân cần bằng Tiếng Việt chuẩn mực theo cấu trúc Markdown rõ ràng:\n"
+            f"## 📚 TỔNG QUAN KIẾN THỨC Y KHOA: {disease_name.upper()} {f'(Mã ICD-10: {icd_code})' if icd_code else ''}\n\n"
+            "### 1. Bản chất & Nguyên nhân gây bệnh\n"
+            "### 2. Các triệu chứng & Dấu hiệu nhận biết điển hình (Phân chia giai đoạn khởi phát & toàn phát nếu có)\n"
+            "### 3. Dấu hiệu cảnh báo nguy hiểm (Red Flags cần đi viện cấp cứu 115 ngay)\n"
+            "### 4. Phương pháp chẩn đoán & Xét nghiệm cận lâm sàng (Theo hướng dẫn Bộ Y Tế)\n"
+            "### 5. Hướng dẫn chăm sóc, dùng thuốc an toàn & Chế độ dinh dưỡng phòng ngừa\n"
+            "💡 *Lời khuyên Bác sĩ: Nhắc nhở nếu bạn hoặc người thân đang xuất hiện các dấu hiệu bất thường kể trên, hãy mô tả chi tiết biểu hiện hiện tại để MediBot hỗ trợ phân tầng nguy cơ trực tiếp.*"
+        )
+
+        context_data = {
+            "cau_hoi_cua_nguoi_dung": user_query,
+            "benh_ly_tra_cuu": disease_name,
+            "ma_icd_10": icd_code,
+            "thong_tin_benh_hoc_icd10": disease_info or {},
+            "phac_do_bo_y_te_rag": rag_citations or []
+        }
+
+        prompt = (
+            f"{system_instruction}\n\n"
+            f"=== TÀI LIỆU PHÁC ĐỒ BỘ Y TẾ & THÔNG TIN BỆNH HỌC ICD-10 ===\n"
+            f"{json.dumps(context_data, ensure_ascii=False, indent=2)}\n\n"
+            f"Hãy viết câu trả lời giải đáp thấu đáo, chuẩn xác và khoa học cho câu hỏi: '{user_query}':"
+        )
+
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {
+                "temperature": 0.2,
+                "maxOutputTokens": 4096,
+                "topP": 0.95
+            }
+        }
+
+        for attempt_idx, key_to_use in enumerate(keys_to_attempt[:3]):
+            models_to_try = self._get_available_models(key_to_use)[:4]
+            rate_limit_count = 0
+            for model in models_to_try:
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key_to_use}"
+                result = self._call_gemini_with_backoff(url, payload, max_retries=1, timeout=8.5)
+                if result is self.RATE_LIMITED:
+                    rate_limit_count += 1
+                    continue
+                if result and isinstance(result, dict):
+                    candidates = result.get("candidates", [])
+                    if candidates:
+                        parts = candidates[0].get("content", {}).get("parts", [])
+                        if parts:
+                            text = parts[0].get("text", "").strip()
+                            if text:
+                                self.last_error = None
+                                logger.info(f"Disease inquiry response generated successfully using '{model}'.")
+                                return text
+                if self.last_error and any(code in self.last_error for code in ["401", "403"]):
+                    break
+            if rate_limit_count == len(models_to_try) and rate_limit_count > 0:
+                self.mark_key_rate_limited(key_to_use, cooldown_seconds=30.0)
+        return None
+
 gemini_service = GeminiMedicalReasoningService()
